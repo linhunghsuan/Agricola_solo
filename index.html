@@ -112,17 +112,26 @@
         .board { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; flex-grow: 1; padding: 0; gap: 0; scroll-behavior: smooth; }
         
         /* 劇本卡片改為手機滿版，內部獨立上下滑動 */
-        .scenario-card, .add-copy-panel { 
-            scroll-snap-align: start; 
-            width: 480px; 
-            height: 100%; 
-            overflow-y: auto; 
-            border-radius: 0; 
-            border-top: 5px solid #9ca3af; 
-            border-right: 1px solid var(--border-color); 
-            background: white; 
-            display: flex; 
-            flex-direction: column; 
+        .scenario-card,
+        .add-copy-panel {
+            scroll-snap-align: start;
+            width: 100%;
+            height: 100%;
+        
+            box-sizing: border-box;   
+        
+            overflow-y: auto;
+            overflow-x: hidden;       
+        
+            border-radius: 0;
+            border-top: 5px solid #9ca3af;
+            border-right: 1px solid var(--border-color);
+        
+            background: white;
+            display: flex;
+            flex-direction: column;
+        
+            min-width: 0;             
         }
         .scenario-card.view-mode { border-top-color: #8b5cf6; background: #f8fafc; }
 
