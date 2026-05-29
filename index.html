@@ -9,6 +9,9 @@
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
         h1, h2, h3, h4 { margin: 0 0 10px 0; }
         
+        .scenario-sticky-header { position: sticky; top: 0; z-index: 20; background: #f3f4f6; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);}
+        .budget-container{ background: #fff; padding: 10px; border-bottom: 2px solid #e5e7eb;}
+
         .base-state { background: white; padding: 15px 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; border-left: 5px solid var(--primary); }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-weight: bold; font-size: 14px; }
         .space-alert { color: #b91c1c; background: #fef2f2; padding: 4px 8px; border-radius: 4px; display: inline-block; border: 1px dashed #f87171; }
@@ -25,7 +28,6 @@
         .history-scenario { padding: 8px; border-radius: 4px; margin-bottom: 5px; border: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: flex-start; font-size: 13px; background: #f9fafb; }
         .btn-change-history { background: #fef08a; border: 1px solid #fde047; color: #854d0e; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; white-space: nowrap; }
         .board { display: flex; gap: 20px; align-items: flex-start; overflow-x: auto; padding-bottom: 20px; }
-        .scenario-card-block { width: 480px; height:45px;}
         .scenario-card { background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); width: 480px; flex-shrink: 0; display: flex; flex-direction: column; border-top: 5px solid #9ca3af; }
         .scenario-card.view-mode { border-top-color: #8b5cf6; background: #f8fafc; }
         .scenario-header { padding: 12px; background: #f9fafb; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); }
@@ -33,21 +35,28 @@
         
         .intermediate-state { padding: 12px; background: #fffbeb; border-bottom: 1px solid #fde68a; font-size: 13px; line-height: 1.6; }
         .farm-board { background: #fefce8; border: 1px dashed #ca8a04; padding: 8px; margin-top: 8px; border-radius: 4px; }
-        
-        .history-list { padding: 10px; background: #f3f4f6; min-height: 400px; font-size: 13px; display: flex; flex-direction: column; gap: 6px; overflow-y: auto;}
+        .history-list-wrapper { position: relative; margin-bottom: 15px; }
+        .history-list { padding: 10px; background: #f3f4f6; min-height: 600px; font-size: 13px; display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; overscroll-behavior: contain; scroll-behavior: smooth;}
         .log-round { font-weight: bold; background: #e0e7ff; color: #3730a3; padding: 6px; border-radius: 4px; text-align: center; margin-top: 6px; border: 1px dashed #a5b4fc; }
         .log-info { background: #fdfde6; color: #854d0e; padding: 6px; border-radius: 4px; border: 1px solid #fef08a; font-size: 12px; }
         .log-action { background: white; padding: 8px 10px; border-radius: 4px; border: 1px solid #e5e7eb; display: flex; gap: 8px;}
         .log-harvest { background: #fef2f2; color: #991b1b; padding: 10px; border-radius: 4px; border: 1px dashed #fca5a5; font-size: 12.5px; line-height: 1.5; }
         .log-harvest.danger { background: #fee2e2; border-color: #ef4444; }
         .log-end { background: #dcfce3; color: #166534; padding: 10px; border-radius: 4px; border: 1px solid #86efac; text-align: center; font-weight: bold; }
-        
+        /* 懸浮按鈕群組的容器 */
+        .log-btn-group { position: absolute; right: 10px; display: flex; gap: 4px; z-index: 10; background: rgba(243, 244, 246, 0.8);  padding: 2px; border-radius: 20px; }
+        .log-btn-group.is-top { top: 10px; }
+        .log-btn-group.is-bottom { bottom: 10px; }
+        .log-quick-btn { background: rgba(255, 255, 255, 0.95); border: 1px solid #d1d5db; box-shadow: 0 2px 4px rgba(0,0,0,0.1); color: #4b5563; width: 28px; height: 28px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 12px;}
+        .log-quick-btn:active { background: #e5e7eb; transform: scale(0.95); }
+
         .settings-panel { padding: 10px; background: #f0f9ff; border-top: 1px solid #bae6fd; border-bottom: 1px solid #bae6fd; font-size: 12px; line-height: 1.6; }
         .settings-panel input[type="number"] { width: 32px; padding: 2px; text-align: center; border: 1px solid #93c5fd; border-radius: 3px; }
         .settings-panel select { padding: 2px; border-radius: 3px; border: 1px solid #93c5fd; font-size: 12px; }
         
         .action-palette { padding: 10px; border-bottom: 1px dashed var(--border-color); }
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px;}
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 6px; margin-bottom: 10px; max-height: 250px; overflow-y: auto; padding-right: 5px;}
         .btn-action { background: #e5e7eb; border: 1px solid #d1d5db; padding: 8px; border-radius: 4px; cursor: pointer; font-size: 12px; text-align: left; }
         .btn-action:hover:not(:disabled) { background: #d1d5db; }
         .btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -77,14 +86,15 @@
         .planner-table.interactive td { cursor: pointer; border-color: #fde047; }
         .planner-table.interactive th { background: #fef08a; color: #854d0e; border-color: #fde047; }
         .planner-table.interactive td:hover { background: #fef9c3; }
-        .planner-table td.selected { background: #facc15; font-weight: bold; color: #713f12; border: 2px solid #a16207; }
-        
+        .planner-table td.selected { width: 72px; background: #facc15; font-weight: bold; color: #713f12; border: 2px solid #a16207; }
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-bottom: 8px;}
+        .td-stepper { white-space: nowrap ; width: 72px;}
         .sim-table th { background: #dbeafe; color: #1e40af; border-color: #bfdbfe;}
         .harvest-table th { background: #fce7f3; color: #9d174d; border-color: #fbcfe8;}
         
-        .cost-input { width: 36px; padding: 1px; border: 1px solid #cbd5e1; border-radius: 3px; font-size:10px; text-align:center; background: transparent;}
-        .cost-input.edited { background: #dbeafe; border-color: #3b82f6; font-weight: bold; color: #1e40af;}
-        .sim-input { width: 36px; padding: 2px; border: 1px solid #fbcfe8; border-radius: 3px; font-size:11px; text-align:center; }
+        .cost-input { width: 72px; padding: 1px; border: 1px solid #cbd5e1; border-radius: 3px; font-size:10px; text-align:center; background: transparent;}
+        .cost-input.edited { width: 72px; background: #dbeafe; border-color: #3b82f6; font-weight: bold; color: #1e40af;}
+        .sim-input { width: 72px; padding: 2px; border: 1px solid #fbcfe8; border-radius: 3px; font-size:11px; text-align:center; }
         
         .planner-summary { background: #fef08a; padding: 8px; border-radius: 4px; font-weight: bold; color: #854d0e; text-align: center; font-size: 14px; margin-top: 10px; border: 1px solid #facc15; }
 
@@ -112,37 +122,27 @@
         .board { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; flex-grow: 1; padding: 0; gap: 0; scroll-behavior: smooth; }
         
         /* 劇本卡片改為手機滿版，內部獨立上下滑動 */
-        .scenario-card,
-        .add-copy-panel {
-            scroll-snap-align: start;
-            width: 100%;
-            height: 100%;
-        
-            box-sizing: border-box;   
-        
-            overflow-y: auto;
-            overflow-x: hidden;       
-        
-            border-radius: 0;
-            border-top: 5px solid #9ca3af;
-            border-right: 1px solid var(--border-color);
-        
-            background: white;
-            display: flex;
-            flex-direction: column;
-        
-            min-width: 0;             
+        .scenario-card, .add-copy-panel { 
+            scroll-snap-align: start; 
+            width: 100vw; 
+            min-width: 100vw; 
+            height: 100%; 
+            overflow-y: auto; 
+            border-radius: 0; 
+            border-top: 5px solid #9ca3af; 
+            border-right: 1px solid var(--border-color); 
+            background: white; 
+            display: flex; 
+            flex-direction: column; 
         }
         .scenario-card.view-mode { border-top-color: #8b5cf6; background: #f8fafc; }
-
-        /* 劇本內部快速跳轉導航列 (Sticky) */
         
-        .quick-nav { display: flex; background: #f3f4f6; padding: 20px 20px 5px 5px; position: sticky; top: 0; z-index: 0; gap: 3px; border-bottom: 1px solid #d1d5db; box-shadow: 0 2px 4px rgba(0,0,0,0.05);}
-        .quick-nav button { white-space: nowrap; padding: 20px 5px; font-size: 12px; border: 1px solid #9ca3af; border-radius: 4px; background: white; cursor: pointer; color: #1f2937; }
+        .quick-nav { display: flex; padding: 5px; gap: 3px; overflow-x: auto; border-bottom: 1px solid #d1d5db;}
+        .quick-nav button { white-space: nowrap; padding: 20px 8px; font-size: 12px; border: 1px solid #9ca3af; border-radius: 4px; background: white; cursor: pointer; color: #1f2937; }
         .quick-nav button:hover { background: #e5e7eb; }
 
         /* 確保每個區塊在手機上有足夠高度，且捲動時不會被頂部導航擋住 */
-        .section-block { padding: 15px 10px; border-bottom: 3px dashed #e5e7eb; scroll-margin-top: 50px; }
+        .section-block { padding: 15px 10px; border-bottom: 3px dashed #e5e7eb; scroll-margin-top: 60px;}
 
         /* 桌面版/大螢幕響應式覆寫 */
         @media (min-width: 768px) {
@@ -153,6 +153,57 @@
             .board { display: flex !important; padding: 20px 0; gap: 20px; scroll-snap-type: none; overflow-x: auto; }
             .scenario-card, .add-copy-panel { width: 480px; min-width: 480px; height: 85vh; border-radius: 8px; }
         }
+        /* 數字加減器 (Stepper) 樣式 */
+        .stepper-group {
+            display: inline-flex; align-items: center; border: 1px solid #9ca3af;
+            border-radius: 4px; overflow: hidden; background: white; height: 24px; white-space: nowrap; width: 72px; 
+        }
+        .stepper-btn {
+            background: #f3f4f6; color: #374151; border: none; padding: 0 6px; font-size: 14px;
+            font-weight: bold; cursor: pointer; height: 100%; display: flex; align-items: center; justify-content: center; user-select: none;
+        }
+        .stepper-btn:hover { background: #e5e7eb; }
+        .stepper-input {
+            width: 16px; text-align: center; border: none; 
+            border-left: 1px solid #d1d5db; border-right: 1px solid #d1d5db; 
+            font-size: 12px; font-weight: bold; height: 100%; padding: 0;
+        }
+        .stepper-input::-webkit-outer-spin-button,
+        .stepper-input::-webkit-inner-spin-button {
+            -webkit-appearance: none; margin: 0;
+        }
+
+        .retro-container { display: flex; flex-direction: column; height: 100%; overflow: hidden; background: #f8fafc; padding: 15px; }
+        .retro-header-info { background: #dbeafe; padding: 12px; border-radius: 8px; border-left: 5px solid #2563eb; margin-bottom: 15px; flex-shrink: 0;}
+        .retro-layout { display: flex; flex-grow: 1; gap: 15px; overflow: hidden; }
+        
+        .retro-sidebar { width: 280px; flex-shrink: 0; overflow-y: auto; padding-right: 10px; border-right: 2px dashed #cbd5e1; }
+        .retro-cat-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; padding: 10px 12px; margin-bottom: 8px; border-radius: 6px; border: 1px solid #d1d5db; background: white; cursor: pointer; transition: all 0.2s; font-size: 13px;}
+        .retro-cat-btn:hover { background: #f1f5f9; }
+        .retro-cat-btn.active { background: #eff6ff; border-color: #3b82f6; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-left: 4px solid #2563eb;}
+        .retro-badge { background: #e2e8f0; color: #475569; padding: 2px 6px; border-radius: 10px; font-size: 11px; }
+        .active .retro-badge { background: #3b82f6; color: white; }
+
+        .retro-main { flex-grow: 1; overflow-y: auto; padding-left: 20px; padding-bottom: 30px;}
+        .retro-tree { border-left: 3px solid #cbd5e1; margin-left: 10px; padding-left: 25px; position: relative; }
+        .retro-node { position: relative; padding: 12px; background: white; border: 1px solid #e2e8f0; border-radius: 6px; margin-bottom: 15px; max-width: 500px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.2s;}
+        .retro-node:hover { transform: translateX(5px); border-color: #93c5fd; }
+        .retro-node::before { content: ''; position: absolute; left: -33.5px; top: 15px; width: 14px; height: 14px; border-radius: 50%; background: #3b82f6; border: 3px solid white; box-shadow: 0 0 0 1px #cbd5e1; }
+        .retro-round { display: inline-block; background: #1e3a8a; color: white; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-bottom: 6px; }
+        .retro-action { font-size: 14px; font-weight: bold; color: #1f2937; margin-bottom: 4px; }
+        .retro-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+        .retro-tag { font-size: 10px; padding: 2px 6px; background: #fef08a; color: #854d0e; border-radius: 4px; border: 1px solid #facc15; }
+
+        .sticky-budget { position: sticky; top: 38px; z-index: 20; background: #fff; padding: 10px; border-bottom: 2px solid #e5e7eb; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .budget-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: bold; margin-bottom: 6px; }
+        .horizon-safe { color: #059669; background: #d1fae5; padding: 2px 6px; border-radius: 4px; }
+        .horizon-danger { color: #b91c1c; background: #fee2e2; padding: 2px 6px; border-radius: 4px; animation: pulse 2s infinite; }
+        .budget-bar { display: flex; height: 12px; background: #e5e7eb; border-radius: 6px; overflow: hidden; margin-bottom: 6px; }
+        .budget-tax { background: #ef4444; transition: width 0.3s ease; display: flex; align-items: center; justify-content: center; font-size: 9px; color: white; font-weight: bold;}
+        .budget-free { background: #10b981; transition: width 0.3s ease; }
+        .budget-footer { display: flex; justify-content: space-between; font-size: 11px; }
+        .synergy-badge { display: inline-flex; align-items: center; background: linear-gradient(135deg, #fef08a 0%, #fde047 100%); color: #854d0e; border: 1px solid #eab308; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; margin-left: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -161,87 +212,142 @@
     <div class="main-nav">
         <button @click="activeMainTab = 'global'" :class="{active: activeMainTab === 'global'}">🌍 全局與歷史</button>
         <button @click="activeMainTab = 'scenarios'" :class="{active: activeMainTab === 'scenarios'}">📝 劇本推演板</button>
+        <button @click="activeMainTab = 'retro'" :class="{active: activeMainTab === 'retro'}">📊 賽後拓撲復盤</button>
+    </div>
+
+    <div class="page-container" v-show="activeMainTab === 'retro'" style="padding: 0;">
+        <div class="retro-container">
+            <div class="retro-header-info">
+                <h3 style="margin:0 0 5px 0; color:#1e40af;">🌳 行動相依性拓撲圖 (Action Dependency Matrix)</h3>
+                <div style="font-size:12px; color:#475569;">
+                    點擊左側計分項目，系統會將整場遊戲中「直接或間接」影響該項目的所有行動連成樹狀圖。<br>
+                    <strong>復盤指引：</strong>檢視某個得分項目的行動路徑是否過長？是否做了過多無效的救火行動？
+                </div>
+            </div>
+            
+            <div class="retro-layout">
+                <!-- 左側：計分維度與影響數量 -->
+                <div class="retro-sidebar">
+                    <button class="retro-cat-btn" :class="{active: selectedRetroCategory === 'all'}" @click="selectedRetroCategory = 'all'">
+                        <span>📋 顯示完整遊戲歷程</span>
+                        <span class="retro-badge">{{ fullActionHistory.length }} 動</span>
+                    </button>
+                    <div style="margin: 15px 0 5px 5px; font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">核心生存與引擎</div>
+                    <button class="retro-cat-btn" v-for="(cat, key) in retroCategories" :key="key" 
+                            :class="{active: selectedRetroCategory === key}" @click="selectedRetroCategory = key"
+                            v-show="cat.group === 'engine'">
+                        <span>{{ cat.icon }} {{ cat.name }}</span>
+                        <span class="retro-badge">{{ getActionCountForCategory(key) }} 動</span>
+                    </button>
+                    
+                    <div style="margin: 15px 0 5px 5px; font-size: 11px; font-weight: bold; color: #94a3b8; text-transform: uppercase;">終局得分項目追蹤</div>
+                    <button class="retro-cat-btn" v-for="(cat, key) in retroCategories" :key="key" 
+                            :class="{active: selectedRetroCategory === key}" @click="selectedRetroCategory = key"
+                            v-show="cat.group === 'score'">
+                        <span>{{ cat.icon }} {{ cat.name }}</span>
+                        <span class="retro-badge">{{ getActionCountForCategory(key) }} 動</span>
+                    </button>
+                </div>
+                
+                <!-- 右側：拓撲樹狀圖 -->
+                <div class="retro-main">
+                    <div v-if="filteredRetroTree.length === 0" style="color:#9ca3af; margin-top: 20px;">
+                        此維度目前沒有任何相關行動紀錄。
+                    </div>
+                    <div class="retro-tree" v-else>
+                        <div class="retro-node" v-for="(act, idx) in filteredRetroTree" :key="idx">
+                            <div class="retro-round">R{{ act.round }} {{ act.isSystem ? '系統結算' : '玩家行動' }}</div>
+                            <div class="retro-action">
+                                {{ act.name }} <span style="font-size:12px; color:#2563eb; font-weight:normal;">{{ act.paramStr }}</span>
+                                <span v-if="act.isSynergy" class="synergy-badge" style="font-size: 9px; padding: 1px 4px;">🌟 得分+生存</span>
+                            </div>
+                            <div class="retro-tags">
+                                <span class="retro-tag" v-for="imp in act.impacts" :key="imp" 
+                                      :style="imp === selectedRetroCategory ? 'background:#3b82f6; color:white; border-color:#2563eb;' : ''">
+                                    {{ retroCategories[imp]?.name || imp }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="page-container" v-show="activeMainTab === 'global'">
         <div class="base-state" style="background:#f0f9ff; border-color:#0284c7;">
-            <div class="base-state" style="background:#f0f9ff; border-color:#0284c7;">
-                <h3 style="margin-top:0; color:#0369a1;">⚙️ 變體規則：行動格解鎖順序</h3>
-                <div style="margin-bottom: 10px;">
-                    <button class="copy-btn" @click="setDefaultOrder()">恢復預設順序</button>
-                    <button class="copy-btn" @click="setRandomOrder()" style="margin-left: 5px;">隨機打亂順序</button>
-                    <label style="margin-left: 15px; font-weight: bold; color: #b91c1c;">
-                        <input type="checkbox" v-model="gameConfig.isHidden"> 隱藏未到回合的行動格 (防雷)
-                    </label>
-                </div>
-                
-                <div v-if="!gameConfig.isHidden" style="display:flex; flex-wrap:wrap; gap:10px;">
-                    <div v-for="(acts, stage) in STAGE_POOLS" :key="stage" style="border:1px solid #93c5fd; padding:8px; border-radius:4px; font-size: 12px; background: white;">
-                        <strong style="color: #1e40af;">階段 {{stage}} (R{{STAGE_ROUNDS[stage][0]}}~R{{STAGE_ROUNDS[stage][STAGE_ROUNDS[stage].length-1]}})</strong><br>
-                        <div v-for="actId in acts" :key="actId" style="margin-top: 4px; display:flex; justify-content:space-between;">
-                            <span style="margin-right: 8px;">{{ ACTION_NAMES[actId] }}</span>
-                            <select v-model.number="gameConfig.unlockRounds[actId]" style="padding:1px;">
-                                <option v-for="r in STAGE_ROUNDS[stage]" :value="r">R{{r}}</option>
-                            </select>
-                        </div>
+            <h3 style="margin-top:0; color:#0369a1;">⚙️ 變體規則：行動格解鎖順序</h3>
+            <div style="margin-bottom: 10px;">
+                <button class="copy-btn" @click="setDefaultOrder()">恢復預設順序</button>
+                <button class="copy-btn" @click="setRandomOrder()" style="margin-left: 5px;">隨機打亂順序</button>
+                <label style="margin-left: 15px; font-weight: bold; color: #b91c1c;">
+                    <input type="checkbox" v-model="gameConfig.isHidden"> 隱藏未到回合的行動格 (防雷)
+                </label>
+            </div>
+            
+            <div v-if="!gameConfig.isHidden" style="display:flex; flex-wrap:wrap; gap:10px;">
+                <div v-for="(acts, stage) in STAGE_POOLS" :key="stage" style="border:1px solid #93c5fd; padding:8px; border-radius:4px; font-size: 12px; background: white;">
+                    <strong style="color: #1e40af;">階段 {{stage}} (R{{STAGE_ROUNDS[stage][0]}}~R{{STAGE_ROUNDS[stage][STAGE_ROUNDS[stage].length-1]}})</strong><br>
+                    <div v-for="actId in acts" :key="actId" style="margin-top: 4px; display:flex; justify-content:space-between;">
+                        <span style="margin-right: 8px;">{{ ACTION_NAMES[actId] }}</span>
+                        <select v-model.number="gameConfig.unlockRounds[actId]" style="padding:1px;">
+                            <option v-for="r in STAGE_ROUNDS[stage]" :value="r">R{{r}}</option>
+                        </select>
                     </div>
-                </div>
-                <div v-else style="background: #e0e7ff; color: #3730a3; padding: 10px; border-radius: 4px; text-align: center; font-weight: bold;">
-                    🙈 行動格詳細設定已隱藏。未來資源推演中「尚未翻開」的卡牌將標示為「未知」。
                 </div>
             </div>
+            <div v-else style="background: #e0e7ff; color: #3730a3; padding: 10px; border-radius: 4px; text-align: center; font-weight: bold;">
+                🙈 行動格詳細設定已隱藏。未來資源推演中「尚未翻開」的卡牌將標示為「未知」。
+            </div>
         </div>
+        
         <div class="base-state">
-            <div class="base-state">
-                <h2>📍 當前正式遊戲進度</h2>
-                <div class="stats-grid">
-                    <div style="color:var(--primary); font-size:16px;">▶ <strong>第 {{ baseState.round }} 回合</strong> (剩 {{ baseState.workersLeft }} 動)</div>
-                    <div>👨‍👩‍👦 人口: {{ baseState.adults }}成人, {{ baseState.newborns }}嬰</div>
-                    <div>🎒 資源: {{ baseState.food }}食 | {{ baseState.wood }}木 | {{ baseState.clay }}磚 | {{ baseState.reed }}蘆 | {{ baseState.stone }}石 | {{ baseState.grain }}麥 | {{ baseState.veg }}菜</div>
-                    <div>🐑 動物: {{ baseState.sheep }}羊 | {{ baseState.boar }}豬 | {{ baseState.cattle }}牛</div>
-                    <div class="space-alert">
-                        🏡 空間(剩 {{ 15 - baseState.spaceUsed }}): 
-                        {{ baseState.rooms.count }}間{{ getRoomTypeName(baseState.rooms.type) }},
-                        {{ baseState.stables }}/4 馬廄,
-                        閒置田({{ baseState.idleFields }}), 麥田[{{ baseState.grainFields.join(',') }}], 菜田[{{ baseState.vegFields.join(',') }}],
-                        圈地佔 {{ baseState.fences.spaces }} 格
-                    </div>
-                    <div>
-                        📜 設施: <span class="imp-tags" v-for="imp in baseState.improvements">{{ getImpName(imp) }}</span>
-                        <span v-if="baseState.improvements.length === 0" style="color:#9ca3af; font-weight:normal;">無</span>
-                        <span v-if="baseState.wellFoodRemaining > 0" style="color:#0284c7; font-size:12px;">(井剩 {{ baseState.wellFoodRemaining }} 食)</span>
-                    </div>
-                    <div style="color:#d97706; grid-column: 1 / -1; padding-top: 5px; border-top: 1px dashed #ccc;">
-                        🌍 累積: {{ baseState.accWood }}木, {{ baseState.accClay }}磚, {{ baseState.accReed }}蘆, {{ baseState.accFood }}食, {{ baseState.accSheep }}羊, {{ baseState.accBoar }}豬, {{ baseState.accCattle }}牛, 石[石1:{{ baseState.accStone[0] }}, 石2:{{ baseState.accStone[1] }}]
-                    </div>
+            <h2>📍 當前正式遊戲進度</h2>
+            <div class="stats-grid">
+                <div style="color:var(--primary); font-size:16px;">▶ <strong>第 {{ baseState.round }} 回合</strong> (剩 {{ baseState.workersLeft }} 動)</div>
+                <div>👨‍👩‍👦 人口: {{ baseState.adults }}成人, {{ baseState.newborns }}嬰</div>
+                <div>🎒 資源: {{ baseState.food }}食 | {{ baseState.wood }}木 | {{ baseState.clay }}磚 | {{ baseState.reed }}蘆 | {{ baseState.stone }}石 | {{ baseState.grain }}麥 | {{ baseState.veg }}菜</div>
+                <div>🐑 動物: {{ baseState.sheep }}羊 | {{ baseState.boar }}豬 | {{ baseState.cattle }}牛</div>
+                <div class="space-alert">
+                    🏡 空間(剩 {{ 15 - baseState.spaceUsed }}): 
+                    {{ baseState.rooms.count }}間{{ getRoomTypeName(baseState.rooms.type) }},
+                    {{ baseState.stables }}/4 馬廄,
+                    閒置田({{ baseState.idleFields }}), 麥田[{{ baseState.grainFields.join(',') }}], 菜田[{{ baseState.vegFields.join(',') }}],
+                    圈地佔 {{ baseState.fences.spaces }} 格
+                </div>
+                <div>
+                    📜 設施: <span class="imp-tags" v-for="imp in baseState.improvements">{{ getImpName(imp) }}</span>
+                    <span v-if="baseState.improvements.length === 0" style="color:#9ca3af; font-weight:normal;">無</span>
+                    <span v-if="baseState.wellFoodRemaining > 0" style="color:#0284c7; font-size:12px;">(井剩 {{ baseState.wellFoodRemaining }} 食)</span>
+                </div>
+                <div style="color:#d97706; grid-column: 1 / -1; padding-top: 5px; border-top: 1px dashed #ccc;">
+                    🌍 累積: {{ baseState.accWood }}木, {{ baseState.accClay }}磚, {{ baseState.accReed }}蘆, {{ baseState.accFood }}食, {{ baseState.accSheep }}羊, {{ baseState.accBoar }}豬, {{ baseState.accCattle }}牛, 石[石1:{{ baseState.accStone[0] }}, 石2:{{ baseState.accStone[1] }}]
                 </div>
             </div>
         </div>
 
         <div class="history-timeline" v-if="history.length > 0">
-            <div class="history-timeline" v-if="history.length > 0">
-                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
-                    <h3 style="margin:0;">🕰️ 歷史決策節點</h3>
-                    <button v-if="viewingHistoryIndex !== -1" @click="returnToCurrent" class="btn-return">
-                        🔙 結束檢視，回到當前回合規劃
-                    </button>
-                </div>
-                <div class="history-blocks-container">
-                    <div class="history-block" v-for="(h, hIndex) in history" :key="hIndex">
-                        <h4>
-                            第 {{ h.startState.round }} 回合決策
-                            <button class="btn-view-history" @click="viewHistory(hIndex)">檢視詳細排程</button>
-                        </h4>
-                        <div class="history-scenario" v-for="s in h.scenarios" :key="s.id" :style="s.id === h.selectedScenarioId ? 'background:#dcfce3; border-color:#86efac;' : ''">
-                            <div style="flex-grow: 1; padding-right: 10px;">
-                                <div style="margin-bottom: 4px; font-weight: bold;">{{ s.name }}</div>
-                                <div style="font-size: 11px; color: #4b5563;">🏆 {{ s.snapshot.sysScore.total }} 分 | 🍲 缺口 {{ s.snapshot.sysFoodDebt > 0 ? s.snapshot.sysFoodDebt : 0 }}</div>
-                                <div v-if="s.notes" style="font-size: 11px; color: #6b7280; margin-top: 4px; border-top: 1px dashed #ccc; padding-top: 4px;">📝 {{ s.notes }}</div>
-                            </div>
-                            <div style="display: flex; align-items: center;">
-                                <button class="btn-change-history" v-if="s.id !== h.selectedScenarioId" @click="revertHistory(hIndex, s.id)">改選</button>
-                                <span v-else style="color: #166534; font-weight:bold;">✅</span>
-                            </div>
+            <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom:10px;">
+                <h3 style="margin:0;">🕰️ 歷史決策節點</h3>
+                <button v-if="viewingHistoryIndex !== -1" @click="returnToCurrent" class="btn-return">
+                    🔙 結束檢視，回到當前回合規劃
+                </button>
+            </div>
+            <div class="history-blocks-container">
+                <div class="history-block" v-for="(h, hIndex) in history" :key="hIndex">
+                    <h4>
+                        第 {{ h.startState.round }} 回合決策
+                        <button class="btn-view-history" @click="viewHistory(hIndex)">檢視詳細排程</button>
+                    </h4>
+                    <div class="history-scenario" v-for="s in h.scenarios" :key="s.id" :style="s.id === h.selectedScenarioId ? 'background:#dcfce3; border-color:#86efac;' : ''">
+                        <div style="flex-grow: 1; padding-right: 10px;">
+                            <div style="margin-bottom: 4px; font-weight: bold;">{{ s.name }}</div>
+                            <div style="font-size: 11px; color: #4b5563;">🏆 {{ s.snapshot.sysScore.total }} 分 | 🍲 缺口 {{ s.snapshot.sysFoodDebt > 0 ? s.snapshot.sysFoodDebt : 0 }}</div>
+                            <div v-if="s.notes" style="font-size: 11px; color: #6b7280; margin-top: 4px; border-top: 1px dashed #ccc; padding-top: 4px;">📝 {{ s.notes }}</div>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <button class="btn-change-history" v-if="s.id !== h.selectedScenarioId" @click="revertHistory(hIndex, s.id)">改選</button>
+                            <span v-else style="color: #166534; font-weight:bold;">✅</span>
                         </div>
                     </div>
                 </div>
@@ -251,170 +357,107 @@
 
     <div class="board" v-show="activeMainTab === 'scenarios'">
         <div class="scenario-card" :class="{'view-mode': viewingHistoryIndex !== -1}" v-for="scenario in displayedScenarios" :key="scenario.id" :id="scenario.id">
-            <div class="quick-nav">
-                <button @click="scrollToSection(scenario.id, 'scenario-header')">頂部</button>
-                <button @click="scrollToSection(scenario.id, 'intermediate-state')">資源</button>
-                <button @click="scrollToSection(scenario.id, 'settings-panel')" v-if="viewingHistoryIndex === -1">參數</button>
-                <button @click="scrollToSection(scenario.id, 'action-palette')" v-if="viewingHistoryIndex === -1">行動</button>
-                <button @click="scrollToSection(scenario.id, 'history-list')">日誌</button>
-                <button @click="scrollToSection(scenario.id, 'sim-section')" v-if="viewingHistoryIndex === -1">累積</button>
-                <button @click="scrollToSection(scenario.id, 'harvest-sim-section')" v-if="viewingHistoryIndex === -1">季末</button>
-                <button @click="scrollToSection(scenario.id, 'planner-section')" v-if="viewingHistoryIndex === -1">規劃</button>
-                <button @click="scrollToSection(scenario.id, 'snapshot')">計分</button>
-            </div>
-            <div class="scenario-header section-block">
-                <div class="scenario-header">
-                    <template v-if="viewingHistoryIndex === -1">
-                        <input type="text" v-model="scenario.name">
-                        <button @click="removeScenario(scenario.id)" style="border:none; background:none; color:red; cursor:pointer;">✖</button>
-                    </template>
-                    <template v-else>
-                        <span style="font-size:16px; font-weight:bold; color:#4c1d95;">{{ scenario.name }} (唯讀歷史)</span>
-                    </template>
+            <div class="scenario-sticky-header">
+                <div class="quick-nav">
+                    <button @click="scenario.showBudget = !scenario.showBudget" style="font-weight: bold; color: #1d4ed8; background: #e0e7ff;">
+                        {{ scenario.showBudget ? '收起預算 🔼' : '看預算 🔽' }}
+                    </button>
+                    <button @click="scrollToSection(scenario.id, 'scenario-header')">頂部</button>
+                    <button @click="scrollToSection(scenario.id, 'intermediate-state')">資源</button>
+                    <button @click="scrollToSection(scenario.id, 'history-list')">日誌</button>
+                    <button @click="scrollToSection(scenario.id, 'action-palette')" v-if="viewingHistoryIndex === -1">行動</button>
+                    <button @click="scrollToSection(scenario.id, 'settings-panel')" v-if="viewingHistoryIndex === -1">參數</button>
+                    <button @click="scrollToSection(scenario.id, 'sim-section')" v-if="viewingHistoryIndex === -1">累積</button>
+                    <button @click="scrollToSection(scenario.id, 'harvest-sim-section')" v-if="viewingHistoryIndex === -1">季末</button>
+                    <button @click="scrollToSection(scenario.id, 'planner-section')" v-if="viewingHistoryIndex === -1">規劃</button>
+                    <button @click="scrollToSection(scenario.id, 'snapshot')">計分</button>
                 </div>
+
+                <div class="budget-container" v-show="scenario.showBudget && computedStates[scenario.id]">
+                    <div class="budget-header">
+                        <span>⏱️ 全盤總剩餘: {{ computedStates[scenario.id].budget.remActions }} 動</span>
+                        <div>
+                            <span :class="'horizon-' + computedStates[scenario.id].budget.horizonStatus1">
+                                📡 {{ computedStates[scenario.id].budget.horizonMsg1 }}
+                            </span>
+                            <span v-if="computedStates[scenario.id].budget.horizonMsg2" :class="'horizon-' + computedStates[scenario.id].budget.horizonStatus2" style="margin-left: 5px;">
+                                📡 {{ computedStates[scenario.id].budget.horizonMsg2 }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="budget-bar">
+                        <div class="budget-tax" :style="{ width: computedStates[scenario.id].budget.taxPercent + '%' }">
+                            <span v-if="computedStates[scenario.id].budget.taxPercent > 15">生存稅</span>
+                        </div>
+                        <div class="budget-free" :style="{ width: (100 - computedStates[scenario.id].budget.taxPercent) + '%' }"></div>
+                    </div>
+                    
+                    <div class="budget-footer">
+                        <span style="color:#b91c1c">⚠️ 預扣: {{ computedStates[scenario.id].budget.survivalTax }} 動 (全盤宏觀缺 {{ computedStates[scenario.id].budget.foodShortage }} 食)</span>
+                        <span style="color:#059669">🎯 可支配: {{ computedStates[scenario.id].budget.freeActions }} 動</span>
+                    </div>
+
+                    <div v-if="computedStates[scenario.id].budget.foodPlan.length > 0" style="margin-top: 8px; font-size: 11px; background: #fdfde6; padding: 6px; border: 1px dashed #eab308; border-radius: 4px;">
+                        <strong style="color: #854d0e;">💡 系統保分轉換建議 (填補全盤宏觀缺口)：</strong>
+                        <ul style="margin: 4px 0 0 15px; padding: 0; color: #713f12; line-height: 1.6;">
+                            <li v-for="(step, idx) in computedStates[scenario.id].budget.foodPlan" :key="idx" :style="step.isWarn ? 'color:#b91c1c; font-weight:bold;' : ''">
+                                {{ step.msg }} <span style="color:#059669; font-weight:bold;">(+{{ step.val }}食)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="scenario-header" class="scenario-header section-block">
+                <template v-if="viewingHistoryIndex === -1">
+                    <input type="text" v-model="scenario.name">
+                    <button @click="removeScenario(scenario.id)" style="border:none; background:none; color:red; cursor:pointer;">✖</button>
+                </template>
+                <template v-else>
+                    <span style="font-size:16px; font-weight:bold; color:#4c1d95;">{{ scenario.name }} (唯讀歷史)</span>
+                </template>
             </div>
             
             <button v-if="viewingHistoryIndex === -1" class="commit-btn" @click="commitScenario(scenario.id)">🎯 決定採用此劇本</button>
+            
             <!-- 內部時空當前資源 -->
             <div class="intermediate-state section-block" v-if="computedStates[scenario.id]">
-                <div class="scenario-card-block" ></div>
-                <div class="intermediate-state" v-if="computedStates[scenario.id]">
-                    <strong style="color:#92400e; font-size:14px;">[內部時空: 第 {{ computedStates[scenario.id].round }} 回合 | 剩 {{ computedStates[scenario.id].workersLeft }} 動]</strong><br>
-                    👨‍👩‍👦 <strong>人口:</strong> {{ computedStates[scenario.id].adults }}成人, {{ computedStates[scenario.id].newborns }}嬰<br>
-                    🎒 <strong>資源:</strong> {{ computedStates[scenario.id].food }}食, {{ computedStates[scenario.id].wood }}木, {{ computedStates[scenario.id].clay }}磚, {{ computedStates[scenario.id].reed }}蘆, {{ computedStates[scenario.id].stone }}石, {{ computedStates[scenario.id].grain }}麥, {{ computedStates[scenario.id].veg }}菜<br>
-                    🐑 <strong>動物:</strong> {{ computedStates[scenario.id].sheep }}羊 | {{ computedStates[scenario.id].boar }}豬 | {{ computedStates[scenario.id].cattle }}牛<br>
-                    📜 <strong>設施:</strong> <span class="imp-tags" v-for="imp in computedStates[scenario.id].improvements">{{ getImpName(imp) }}</span>
-                    <span v-if="computedStates[scenario.id].wellFoodRemaining > 0" style="color:#0284c7; font-size:12px;">(井剩 {{ computedStates[scenario.id].wellFoodRemaining }} 食)</span><br>
-                    <div class="farm-board">
-                        <strong>🏡 空間 (剩 {{ 15 - computedStates[scenario.id].spaceUsed }} 格)</strong><br>
-                        • 房屋/馬廄: {{ computedStates[scenario.id].rooms.count }}間{{ getRoomTypeName(computedStates[scenario.id].rooms.type) }}, 共 {{ computedStates[scenario.id].stables }}/4 馬廄<br>
-                        • 農田: 閒置({{ computedStates[scenario.id].idleFields }}), 麥田[{{ computedStates[scenario.id].grainFields.join(',') }}], 菜田[{{ computedStates[scenario.id].vegFields.join(',') }}]<br>
-                        • 圈地: {{ computedStates[scenario.id].fences.pastures }} 圈地, 內含 {{ computedStates[scenario.id].fences.fencedStables }} 馬廄 (耗 {{ computedStates[scenario.id].fences.used }} 木, 佔 {{ computedStates[scenario.id].fences.spaces }} 格)
-                    </div>
-                </div>
-            </div>
-
-            <!-- 累積資源時機推算 -->
-            <div class="sim-section section-block" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
-                <div class="scenario-card-block" ></div>
-                <div class="sim-section" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
-                    <h4 style="color:#1e40af; text-align:center; margin-bottom:5px;">📊 資源累積時機推算</h4>
-                    <table class="planner-table sim-table">
-                        <tr><th>資源格</th><th>當前累積</th><th>拿取後未來產出</th><th>目標需求</th><th>預估達標回合</th></tr>
-                        <tr style="background:#f8fafc;">
-                            <td>木頭 (+2/回)</td><td>{{ computedStates[scenario.id].accWood }}</td><td>{{ computedSims[scenario.id].future.wood }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.wood" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.wood, computedStates[scenario.id].accWood, 'wood', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#f8fafc;">
-                            <td>磚塊 (+1/回)</td><td>{{ computedStates[scenario.id].accClay }}</td><td>{{ computedSims[scenario.id].future.clay }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.clay" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.clay, computedStates[scenario.id].accClay, 'clay', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#f8fafc;">
-                            <td>蘆葦 (+1/回)</td><td>{{ computedStates[scenario.id].accReed }}</td><td>{{ computedSims[scenario.id].future.reed }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.reed" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.reed, computedStates[scenario.id].accReed, 'reed', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#f8fafc;">
-                            <td>石[石1/石2]</td><td>{{ computedStates[scenario.id].accStone[0] + computedStates[scenario.id].accStone[1] }}</td>
-                            <td>{{ computedSims[scenario.id].future.stone }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.stone" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.stone, computedStates[scenario.id].accStone[0]+computedStates[scenario.id].accStone[1], 'stone', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#fffbeb;">
-                            <td>綿羊 (+1/回)</td><td>{{ computedStates[scenario.id].accSheep }}</td>
-                            <td>{{ computedSims[scenario.id].future.sheep }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.sheep" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.sheep, computedStates[scenario.id].accSheep, 'sheep', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#fffbeb;">
-                            <td>野豬 (R8+)</td><td>{{ computedStates[scenario.id].accBoar }}</td>
-                            <td>{{ computedSims[scenario.id].future.boar }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.boar" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.boar, computedStates[scenario.id].accBoar, 'boar', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                        <tr style="background:#fffbeb;">
-                            <td>牛隻 (R10+)</td><td>{{ computedStates[scenario.id].accCattle }}</td>
-                            <td>{{ computedSims[scenario.id].future.cattle }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.accN.cattle" placeholder="N"></td>
-                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.cattle, computedStates[scenario.id].accCattle, 'cattle', computedStates[scenario.id].round) }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- 🎯 十四回合終局計分推演 -->
-            <div class="harvest-sim-section section-block" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
-                <div class="scenario-card-block" ></div>
-                <div class="harvest-sim-section" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
-                <h4 style="color:#9d174d; text-align:center; margin-bottom:5px;">🍲 終局計分推演</h4>
-                    <table class="planner-table harvest-table">
-                    <tr><th>動物</th><th>目前持有</th><th>未拿累積<br><span style="font-size:9px;">(場上+未來)</span></th><th>將消耗</th><th>轉化食物</th><th>預期繁殖<br><span style="font-size:9px;">(剩 {{ computedSims[scenario.id].harvest.remHarvests }} 季)</span></th><th>終局預估</th><th>推估分數</th></tr>
-                        <tr>
-                            <td>綿羊</td><td>{{ computedStates[scenario.id].sheep }}</td>
-                            <td style="color:#0369a1;">{{ computedSims[scenario.id].harvest.untakenSheepStr }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simEat.sheep" min="0"></td>
-                            <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodSheep }}</td>
-                            <td style="color:#059669;">+{{ computedSims[scenario.id].harvest.breedSheep }}</td>
-                            <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalSheepStr }}</td>
-                            <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreSheep }}</td>
-                        </tr>
-                        <tr>
-                            <td>野豬</td><td>{{ computedStates[scenario.id].boar }}</td>
-                            <td style="color:#0369a1;">{{ computedSims[scenario.id].harvest.untakenBoarStr }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simEat.boar" min="0"></td>
-                            <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodBoar }}</td>
-                            <td style="color:#059669;">+{{ computedSims[scenario.id].harvest.breedBoar }}</td>
-                            <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalBoarStr }}</td>
-                            <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreBoar }}</td>
-                        </tr>
-                        <tr>
-                            <td>牛隻</td><td>{{ computedStates[scenario.id].cattle }}</td>
-                            <td style="color:#0369a1;">{{ computedSims[scenario.id].harvest.untakenCattleStr }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simEat.cattle" min="0"></td>
-                            <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodCattle }}</td>
-                            <td style="color:#059669;">+{{ computedSims[scenario.id].harvest.breedCattle }}</td>
-                            <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalCattleStr }}</td>
-                            <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreCattle }}</td>
-                        </tr>
-                    </table>
-                    <table class="planner-table harvest-table">
-                    <tr><th>農作</th><th>目前持有<br><span style="font-size:9px;">(倉庫+田裡)</span></th><th>將吃/烤</th><th>轉化食物</th><th>將播種</th><th>終局預估</th><th>推估分數</th></tr>
-                        <tr>
-                            <td>麥子</td><td>{{ computedStates[scenario.id].grain + computedStates[scenario.id].grainFields.reduce((a,b)=>a+b,0) }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simEat.grain" min="0"></td>
-                            <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodGrain }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simSow.grain" min="0"></td>
-                            <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalGrain }}</td>
-                            <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreGrain }}</td>
-                        </tr>
-                        <tr>
-                            <td>蔬菜</td><td>{{ computedStates[scenario.id].veg + computedStates[scenario.id].vegFields.reduce((a,b)=>a+b,0) }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simEat.veg" min="0"></td>
-                            <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodVeg }}</td>
-                            <td><input type="number" class="sim-input" v-model="scenario.target.simSow.veg" min="0"></td>
-                            <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalVeg }}</td>
-                            <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreVeg }}</td>
-                        </tr>
-                    </table>
-                    <div style="text-align:right; font-weight:bold; color:#ca8a04; margin-top:4px;">
-                        十四回合預估總轉化: <span style="font-size:16px;">+{{ computedSims[scenario.id].harvest.totalFoodGained }}</span> 食物
-                    </div>
+                <strong style="color:#92400e; font-size:14px;">[內部時空: 第 {{ computedStates[scenario.id].round }} 回合 | 剩 {{ computedStates[scenario.id].workersLeft }} 動]</strong><br>
+                👨‍👩‍👦 <strong>人口:</strong> {{ computedStates[scenario.id].adults }}成人, {{ computedStates[scenario.id].newborns }}嬰<br>
+                🎒 <strong>資源:</strong> {{ computedStates[scenario.id].food }}食, {{ computedStates[scenario.id].wood }}木, {{ computedStates[scenario.id].clay }}磚, {{ computedStates[scenario.id].reed }}蘆, {{ computedStates[scenario.id].stone }}石, {{ computedStates[scenario.id].grain }}麥, {{ computedStates[scenario.id].veg }}菜<br>
+                🐑 <strong>動物:</strong> {{ computedStates[scenario.id].sheep }}羊 | {{ computedStates[scenario.id].boar }}豬 | {{ computedStates[scenario.id].cattle }}牛<br>
+                📜 <strong>設施:</strong> <span class="imp-tags" v-for="imp in computedStates[scenario.id].improvements">{{ getImpName(imp) }}</span>
+                <span v-if="computedStates[scenario.id].wellFoodRemaining > 0" style="color:#0284c7; font-size:12px;">(井剩 {{ computedStates[scenario.id].wellFoodRemaining }} 食)</span><br>
+                <div class="farm-board">
+                    <strong>🏡 空間 (剩 {{ 15 - computedStates[scenario.id].spaceUsed }} 格)</strong><br>
+                    • 房屋/馬廄: {{ computedStates[scenario.id].rooms.count }}間{{ getRoomTypeName(computedStates[scenario.id].rooms.type) }}, 共 {{ computedStates[scenario.id].stables }}/4 馬廄<br>
+                    • 農田: 閒置({{ computedStates[scenario.id].idleFields }}), 麥田[{{ computedStates[scenario.id].grainFields.join(',') }}], 菜田[{{ computedStates[scenario.id].vegFields.join(',') }}]<br>
+                    • 圈地: {{ computedStates[scenario.id].fences.pastures }} 圈地, 內含 {{ computedStates[scenario.id].fences.fencedStables }} 馬廄 (耗 {{ computedStates[scenario.id].fences.used }} 木, 佔 {{ computedStates[scenario.id].fences.spaces }} 格)
                 </div>
             </div>
 
             <!-- 日誌 -->
-            <div class="history-list section-block">
-                <div class="history-list">
-                    <div class="scenario-card-block" ></div>
+            <div class="history-list-wrapper section-block" :id="'history-' + scenario.id">
+                <div class="log-btn-group is-top">
+                    <button class="log-quick-btn" @click="scrollToLog(scenario.id, 'top')">🔼</button>
+                    <button class="log-quick-btn" @click="scrollToLog(scenario.id, 'bottom')">🔽</button>
+                </div>
+                <div class="log-btn-group is-bottom">
+                    <button class="log-quick-btn" @click="scrollToLog(scenario.id, 'top')">🔼</button>
+                    <button class="log-quick-btn" @click="scrollToLog(scenario.id, 'bottom')">🔽</button>
+                </div>
+
+                <div class="history-list" :id="'log-container-' + scenario.id">
+                    
                     <div v-if="computedStates[scenario.id]?.logs.length === 0" style="color:#9ca3af; text-align:center;">尚未安排行動...</div>
+                    
                     <div v-for="(log, idx) in computedStates[scenario.id]?.logs" :key="idx">
                         <div v-if="log.type === 'round'" class="log-round">📜 第 {{ log.round }} 回合</div>
                         <div v-if="log.type === 'acc_state'" class="log-info">🌍 <strong>場上累積:</strong> {{ log.text }}</div>
                         <div v-if="log.type === 'action'" class="log-action">
                             <strong>{{ log.isFree ? '⚡' : log.index + '.' }}</strong> 
                             {{ log.text }} <span style="font-size:11.5px; color:#1d4ed8; font-weight:bold; margin-left:4px;">{{ log.paramStr }}</span>
+                            <span v-if="['sow_bake', 'renovate_major', 'play_dev', 'plow_sow'].includes(log.id)" class="synergy-badge">🌟 雙效</span>
                         </div>
                         <div v-if="log.type === 'harvest'" class="log-harvest" :class="{'danger': log.debt > 0}">
                             <span v-html="log.msg"></span>
@@ -423,87 +466,99 @@
                             🏁 遊戲結束，最終計分完成！
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 參數待命區 -->
-            <div class="settings-panel section-block" v-if="viewingHistoryIndex === -1">
-                <div class="scenario-card-block" ></div>
-                <div class="settings-panel" v-if="viewingHistoryIndex === -1">
-                    <strong style="color:#0284c7;">⚙️ 動作參數</strong><br>
-                    🏠 <strong>擴建:
-                        </strong> 蓋 <input type="number" v-model="scenario.staged.rooms" min="0"> 房  
-                        蓋 <input type="number" v-model="scenario.staged.stables" min="0" max="4"> 馬廄 
-                        <label style="font-size: 11px; color: #166534;">
-                            <input type="checkbox" v-model="scenario.staged.stablesToFence"> 放入圈地內
-                        </label><br>
-                    🌾 <strong>播種:</strong> 播 <input type="number" v-model="scenario.staged.sowG" min="0">麥 <input type="number" v-model="scenario.staged.sowV" min="0">菜<br>
-                    🤺 <strong>柵欄:</strong> 共 <input type="number" v-model="scenario.staged.fenceWood" min="0" max="15">根, 成 <input type="number" v-model="scenario.staged.fencePastures" min="0">圈 (佔 <input type="number" v-model="scenario.staged.fenceSpaces" min="0">格, 含 <input type="number" v-model="scenario.staged.fenceStables" min="0">馬廄<br>
-                    💳 <strong>買主發:</strong> 
-                    <select v-model="scenario.staged.majorImp">
-                        <option value="none">不購買</option>
-                        <option value="fireplace">火爐 (2磚)</option>
-                        <option value="hearth_4clay">壁爐 (4磚)</option>
-                        <option value="hearth_return">壁爐 (退還火爐)</option>
-                        <option value="clay_oven">磚烤爐 (3磚1石)</option>
-                        <option value="stone_oven">石烤爐 (1磚3石)</option>
-                        <option value="well">井 (3石1木)</option>
-                        <option value="joinery">傢俱工坊 (2木2石)</option>
-                        <option value="pottery">陶藝工坊 (2磚2石)</option>
-                        <option value="basketmaker">蘆葦工坊 (2蘆2石)</option>
-                    </select><br>
-                    🍞 <strong>烤麵包:</strong> 磚烤爐 <input type="number" v-model="scenario.staged.bakeClay" min="0">次, 
-                    石烤爐 <input type="number" v-model="scenario.staged.bakeStone" min="0">次, 
-                    壁爐 <input type="number" v-model="scenario.staged.bakeHearth" min="0">次, 
-                    火爐 <input type="number" v-model="scenario.staged.bakeFire" min="0">次<br>
-                    🍲 <strong>轉化食物:</strong> 
-                    <input type="number" v-model="scenario.staged.cG" min="0">麥 
-                    <input type="number" v-model="scenario.staged.cV" min="0">菜 |<br>
-                    🍲 動物 <input type="number" v-model="scenario.staged.cS" min="0">羊 
-                    <input type="number" v-model="scenario.staged.cB" min="0">豬 
-                    <input type="number" v-model="scenario.staged.cC" min="0">牛 |<br>
-                    🍲 工坊轉 <input type="number" v-model="scenario.staged.cW" min="0">木 
-                    <input type="number" v-model="scenario.staged.cClay" min="0">磚 
-                    <input type="number" v-model="scenario.staged.cR" min="0">蘆
-                </div>
+                    </div>
             </div>
 
             <!-- 操作面板 -->
             <div class="action-palette section-block" v-if="viewingHistoryIndex === -1">
-                <div class="scenario-card-block" ></div>
-                <div class="action-palette" v-if="viewingHistoryIndex === -1">
-                    <div class="action-grid">
-                        <!-- 常規行動階段 -->
-                        <template v-if="computedStates[scenario.id]?.phase === 'action'">
-                            <button class="btn-action" v-for="action in getUnlockedActions(scenario.id)" :key="action.id"
-                                :disabled="isActionTakenThisRound(scenario.id, action.id)"
-                                @click="addAction(scenario.id, action.id)">
-                                {{ action.name }}
-                            </button>
-                        </template>
-                        
-                        <!-- 免費食物轉換 -->
-                        <button class="btn-action btn-free" @click="addAction(scenario.id, 'convert_food')" style="grid-column: 1 / -1;">🍲 執行食物轉換</button>
-                        
-                        <!-- 收成控制 -->
-                        <button class="btn-action btn-advance" v-if="computedStates[scenario.id]?.phase === 'harvest_field'" @click="addAction(scenario.id, 'harvest_field')">
-                            🌾 進行收成階段 (農作物)
+                <div class="action-grid">
+                    <!-- 常規行動階段 -->
+                    <template v-if="computedStates[scenario.id]?.phase === 'action'">
+                        <button class="btn-action" v-for="action in getUnlockedActions(scenario.id)" :key="action.id"
+                            :disabled="isActionTakenThisRound(scenario.id, action.id)"
+                            @click="addAction(scenario.id, action.id)">
+                            {{ action.name }}
                         </button>
-                        <button class="btn-action btn-advance" style="background:#fde047; color:#854d0e; border-color:#facc15;" v-if="computedStates[scenario.id]?.phase === 'harvest_feed'" @click="addAction(scenario.id, 'harvest_feed')">
-                            🥩 進行餵養與繁殖階段
-                        </button>
-                        <button class="btn-action btn-advance" v-if="computedStates[scenario.id]?.phase === 'next_round'" @click="addAction(scenario.id, 'advance_round')">
-                            ⏭️ 進入下一回合
-                        </button>
-                    </div>
-                    <button @click="undoAction(scenario.id)" :disabled="scenario.actions.length === 0" style="width:100%; padding:6px; cursor:pointer; margin-top:5px;">↺ 復原上一步</button>
+                    </template>
+                    
+                    <!-- 免費食物轉換 -->
+                    <button class="btn-action btn-free" @click="addAction(scenario.id, 'convert_food')" style="grid-column: 1 / -1;">🍲 執行食物轉換</button>
+                    
+                    <!-- 收成控制 -->
+                    <button class="btn-action btn-advance" v-if="computedStates[scenario.id]?.phase === 'harvest_field'" @click="addAction(scenario.id, 'harvest_field')">
+                        🌾 進行收成階段 (農作物)
+                    </button>
+                    <button class="btn-action btn-advance" style="background:#fde047; color:#854d0e; border-color:#facc15;" v-if="computedStates[scenario.id]?.phase === 'harvest_feed'" @click="addAction(scenario.id, 'harvest_feed')">
+                        🥩 進行餵養與繁殖階段
+                    </button>
+                    <button class="btn-action btn-advance" v-if="computedStates[scenario.id]?.phase === 'next_round'" @click="addAction(scenario.id, 'advance_round')">
+                        ⏭️ 進入下一回合
+                    </button>
                 </div>
+                <button @click="undoAction(scenario.id)" :disabled="scenario.actions.length === 0" style="width:100%; padding:6px; cursor:pointer; margin-top:5px;">↺ 復原上一步</button>
+            </div>
+
+            <!-- 參數待命區 -->
+            <div class="settings-panel section-block" v-if="viewingHistoryIndex === -1">
+                <strong style="color:#0284c7;">⚙️ 動作參數</strong><br>
+                <div class="settings-panel" v-if="viewingHistoryIndex === -1">
+                <strong style="color:#0284c7;">⚙️ 動作參數待命區</strong><br>
+                
+                👨‍👩‍👦 <strong>未來生人計畫:</strong> 
+                <label v-for="r in getFutureRounds(baseState.round)" :key="r" style="margin-right:8px; font-size:11px; color:#166534; cursor:pointer;">
+                    <input type="checkbox" :value="r" v-model="scenario.target.plannedGrowths"> R{{r}}
+                </label><br>
+
+                🏠 <strong>擴建:
+                    </strong> 蓋 <number-stepper v-model="scenario.staged.rooms"></number-stepper> 房  
+                    蓋 <number-stepper v-model="scenario.staged.stables" :max="4"></number-stepper> 馬廄 
+                    <label style="font-size: 11px; color: #166534;">
+                        <input type="checkbox" v-model="scenario.staged.stablesToFence"> 放入圈地內
+                    </label><br>
+                🌾 <strong>播種:</strong> 播 <number-stepper v-model="scenario.staged.sowG" ></number-stepper>麥 <number-stepper v-model="scenario.staged.sowV" ></number-stepper>菜<br>
+                🤺 <strong>柵欄:</strong> 共 <number-stepper v-model="scenario.staged.fenceWood" :max="15"></number-stepper>根, 成 <number-stepper v-model="scenario.staged.fencePastures" ></number-stepper>圈 (佔 <number-stepper v-model="scenario.staged.fenceSpaces" ></number-stepper>格, 含 <number-stepper v-model="scenario.staged.fenceStables" ></number-stepper>馬廄<br>
+                💳 <strong>買主發:</strong> 
+                <select v-model="scenario.staged.majorImp">
+                    <option value="none">不購買</option>
+                    <option value="fireplace">火爐 (2磚)</option>
+                    <option value="hearth_4clay">壁爐 (4磚)</option>
+                    <option value="hearth_return">壁爐 (退還火爐)</option>
+                    <option value="clay_oven">磚烤爐 (3磚1石)</option>
+                    <option value="stone_oven">石烤爐 (1磚3石)</option>
+                    <option value="well">井 (3石1木)</option>
+                    <option value="joinery">傢俱工坊 (2木2石)</option>
+                    <option value="pottery">陶藝工坊 (2磚2石)</option>
+                    <option value="basketmaker">蘆葦工坊 (2蘆2石)</option>
+                </select><br>
+                🍞 <strong>烤麵包:</strong> 磚烤爐 <number-stepper v-model="scenario.staged.bakeClay" ></number-stepper>次, 
+                石烤爐 <number-stepper v-model="scenario.staged.bakeStone" ></number-stepper>次, 
+                壁爐 <number-stepper v-model="scenario.staged.bakeHearth" ></number-stepper>次, 
+                火爐 <number-stepper v-model="scenario.staged.bakeFire" ></number-stepper>次<br>
+                🍲 <strong>轉化食物:</strong> 
+                <number-stepper v-model="scenario.staged.cG" ></number-stepper>麥 
+                <number-stepper v-model="scenario.staged.cV" ></number-stepper>菜 |<br>
+                🍲 動物 <number-stepper v-model="scenario.staged.cS" ></number-stepper>羊 
+                <number-stepper v-model="scenario.staged.cB" ></number-stepper>豬 
+                <number-stepper v-model="scenario.staged.cC" ></number-stepper>牛 |<br>
+                🍲 工坊轉 <number-stepper v-model="scenario.staged.cW" ></number-stepper>木 
+                <number-stepper v-model="scenario.staged.cClay" ></number-stepper>磚 
+                <number-stepper v-model="scenario.staged.cR" ></number-stepper>蘆
             </div>
 
             <!-- 計分快照與次兩級提示 -->
             <div class="snapshot section-block" v-if="computedStates[scenario.id]">
-                <div class="scenario-card-block" ></div>
                 <div class="snapshot" v-if="computedStates[scenario.id]">
+                    <div class="custom-input-group">
+                        <label>預估食物需求：</label>
+                        <input v-if="viewingHistoryIndex === -1" type="text" v-model="scenario.customDebt" 
+                            :placeholder="`系統試算需求: ${computedStates[scenario.id].sysFoodDebt > 0 ? computedStates[scenario.id].sysFoodDebt : 0} 食物`"
+                            :class="{'edited': scenario.customDebt.trim() !== ''}">
+                        <div v-else class="view-only-text">{{ scenario.customDebt || '無自訂需求' }}</div>
+                    </div>
+                    <div class="notes-area">
+                        <textarea v-if="viewingHistoryIndex === -1" v-model="scenario.notes" placeholder="玩家備註區..." :class="{'edited': scenario.notes.trim() !== ''}"></textarea>
+                        <div v-else class="view-only-text" style="margin-top:8px;">{{ scenario.notes || '無備註' }}</div>
+                    </div>
                     <div class="score-box">
                         <div style="font-size: 16px; margin-bottom: 5px;">🏆 當前狀態得分: {{ computedStates[scenario.id].sysScore.total }} 分</div>
                         <div class="score-breakdown">
@@ -553,30 +608,152 @@
                             </div>
                         </div>
                     </div>
-                    <div class="custom-input-group">
-                        <label>預估食物需求：</label>
-                        <input v-if="viewingHistoryIndex === -1" type="text" v-model="scenario.customDebt" 
-                            :placeholder="`系統試算需求: ${computedStates[scenario.id].sysFoodDebt > 0 ? computedStates[scenario.id].sysFoodDebt : 0} 食物`"
-                            :class="{'edited': scenario.customDebt.trim() !== ''}">
-                        <div v-else class="view-only-text">{{ scenario.customDebt || '無自訂需求' }}</div>
-                    </div>
-                    <div class="notes-area">
-                        <textarea v-if="viewingHistoryIndex === -1" v-model="scenario.notes" placeholder="玩家備註區..." :class="{'edited': scenario.notes.trim() !== ''}"></textarea>
-                        <div v-else class="view-only-text" style="margin-top:8px;">{{ scenario.notes || '無備註' }}</div>
-                    </div>
+                </div>
+            </div>
+
+            <!-- 累積資源時機推算 -->
+            <div class="sim-section section-block" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
+                <h4 style="color:#1e40af; text-align:center; margin-bottom:5px;">📊 資源累積時機推算</h4>
+                <div class="table-responsive">
+                    <table class="planner-table sim-table">
+                        <tr><th>資源格</th><th>當前累積</th><th>拿取後未來產出</th><th>目標需求</th><th>預估達標回合</th></tr>
+                        <tr style="background:#f8fafc;">
+                            <td>木頭 (+2/回)</td><td>{{ computedStates[scenario.id].accWood }}</td><td>{{ computedSims[scenario.id].future.wood }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.wood" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.wood, computedStates[scenario.id].accWood, 'wood', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#f8fafc;">
+                            <td>磚塊 (+1/回)</td><td>{{ computedStates[scenario.id].accClay }}</td><td>{{ computedSims[scenario.id].future.clay }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.clay" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.clay, computedStates[scenario.id].accClay, 'clay', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#f8fafc;">
+                            <td>蘆葦 (+1/回)</td><td>{{ computedStates[scenario.id].accReed }}</td><td>{{ computedSims[scenario.id].future.reed }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.reed" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.reed, computedStates[scenario.id].accReed, 'reed', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#f8fafc;">
+                            <td>石[石1/石2]</td><td>{{ computedStates[scenario.id].accStone[0] + computedStates[scenario.id].accStone[1] }}</td>
+                            <td>{{ computedSims[scenario.id].future.stone }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.stone" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#0369a1;">{{ getTargetRoundDesc(scenario.target.accN.stone, computedStates[scenario.id].accStone[0]+computedStates[scenario.id].accStone[1], 'stone', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#fffbeb;">
+                            <td>綿羊 (+1/回)</td><td>{{ computedStates[scenario.id].accSheep }}</td>
+                            <td>{{ computedSims[scenario.id].future.sheep }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.sheep" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.sheep, computedStates[scenario.id].accSheep, 'sheep', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#fffbeb;">
+                            <td>野豬 (R8+)</td><td>{{ computedStates[scenario.id].accBoar }}</td>
+                            <td>{{ computedSims[scenario.id].future.boar }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.boar" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.boar, computedStates[scenario.id].accBoar, 'boar', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                        <tr style="background:#fffbeb;">
+                            <td>牛隻 (R10+)</td><td>{{ computedStates[scenario.id].accCattle }}</td>
+                            <td>{{ computedSims[scenario.id].future.cattle }}</td>
+                            <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.accN.cattle" placeholder="N"></number-stepper></td>
+                            <td style="font-weight:bold; color:#b45309;">{{ getTargetRoundDesc(scenario.target.accN.cattle, computedStates[scenario.id].accCattle, 'cattle', computedStates[scenario.id].round) }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 🎯 十四回合終局計分推演 -->
+            <div class="harvest-sim-section section-block" v-if="viewingHistoryIndex === -1 && computedSims[scenario.id]">
+                <h4 style="color:#9d174d; text-align:center; margin-bottom:5px;">🍲 終局計分推演</h4>
+                <table class="planner-table harvest-table">
+                    <tr>
+                        <th>動物</th>
+                        <th>目前</th>
+                        <th>擬消耗</th>
+                        <th>手頭保底<br><span style="font-size:9px;">(0動/不拿場上)</span></th>
+                        <th>保底分數</th>
+                        <th>場上總累積<br><span style="font-size:9px;">(未拿)</span></th>
+                        <th>若花1動踩拿<br><span style="font-size:9px;">(終局總量)</span></th>
+                        <th>加開分數</th>
+                        <th>💡 行動效益</th>
+                    </tr>
+                    <tr>
+                        <td>綿羊</td><td>{{ computedStates[scenario.id].sheep }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simEat.sheep" ></number-stepper></td>
+                        <td style="font-weight:bold; color:#475569;">{{ computedSims[scenario.id].harvest.trackSheep.baseTotal }}</td>
+                        <td style="font-weight:bold; color:#1e40af;">{{ computedSims[scenario.id].harvest.trackSheep.baseScore }}分</td>
+                        <td style="color:#0284c7;">+{{ computedSims[scenario.id].harvest.trackSheep.totalAccBoard }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackSheep.actTotal }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackSheep.actScore }}分</td>
+                        <td>
+                            <span v-if="computedSims[scenario.id].harvest.trackSheep.marginalGain > 0" style="color:#166534; background:#d1fae5; padding:2px 4px; border-radius:3px; font-size:10px; font-weight:bold;">
+                                📈 1動賺 {{ computedSims[scenario.id].harvest.trackSheep.marginalGain }} 分
+                            </span>
+                            <span v-else style="color:#64748b; font-size:10px;">踩拿不加分(冗餘步)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>野豬</td><td>{{ computedStates[scenario.id].boar }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simEat.boar" ></number-stepper></td>
+                        <td style="font-weight:bold; color:#475569;">{{ computedSims[scenario.id].harvest.trackBoar.baseTotal }}</td>
+                        <td style="font-weight:bold; color:#1e40af;">{{ computedSims[scenario.id].harvest.trackBoar.baseScore }}分</td>
+                        <td style="color:#0284c7;">+{{ computedSims[scenario.id].harvest.trackBoar.totalAccBoard }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackBoar.actTotal }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackBoar.actScore }}分</td>
+                        <td>
+                            <span v-if="computedSims[scenario.id].harvest.trackBoar.marginalGain > 0" style="color:#166534; background:#d1fae5; padding:2px 4px; border-radius:3px; font-size:10px; font-weight:bold;">
+                                📈 1動賺 {{ computedSims[scenario.id].harvest.trackBoar.marginalGain }} 分
+                            </span>
+                            <span v-else style="color:#64748b; font-size:10px;">踩拿不加分(冗餘步)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>牛隻</td><td>{{ computedStates[scenario.id].cattle }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simEat.cattle" ></number-stepper></td>
+                        <td style="font-weight:bold; color:#475569;">{{ computedSims[scenario.id].harvest.trackCattle.baseTotal }}</td>
+                        <td style="font-weight:bold; color:#1e40af;">{{ computedSims[scenario.id].harvest.trackCattle.baseScore }}分</td>
+                        <td style="color:#0284c7;">+{{ computedSims[scenario.id].harvest.trackCattle.totalAccBoard }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackCattle.actTotal }}</td>
+                        <td style="font-weight:bold; color:#16a34a;">{{ computedSims[scenario.id].harvest.trackCattle.actScore }}分</td>
+                        <td>
+                            <span v-if="computedSims[scenario.id].harvest.trackCattle.marginalGain > 0" style="color:#166534; background:#d1fae5; padding:2px 4px; border-radius:3px; font-size:10px; font-weight:bold;">
+                                📈 1動賺 {{ computedSims[scenario.id].harvest.trackCattle.marginalGain }} 分
+                            </span>
+                            <span v-else style="color:#64748b; font-size:10px;">踩拿不加分(冗餘步)</span>
+                        </td>
+                    </tr>
+                </table>
+                <table class="planner-table harvest-table">
+                <tr><th>農作</th><th>目前持有<br><span style="font-size:9px;">(倉庫+田裡)</span></th><th>將吃/烤</th><th>轉化食物</th><th>將播種</th><th>終局預估</th><th>推估分數</th></tr>
+                    <tr>
+                        <td>麥子</td><td>{{ computedStates[scenario.id].grain + computedStates[scenario.id].grainFields.reduce((a,b)=>a+b,0) }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simEat.grain" ></number-stepper></td>
+                        <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodGrain }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simSow.grain" ></number-stepper></td>
+                        <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalGrain }}</td>
+                        <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreGrain }}</td>
+                    </tr>
+                    <tr>
+                        <td>蔬菜</td><td>{{ computedStates[scenario.id].veg + computedStates[scenario.id].vegFields.reduce((a,b)=>a+b,0) }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simEat.veg" ></number-stepper></td>
+                        <td style="font-weight:bold; color:#eab308;">+{{ computedSims[scenario.id].harvest.foodVeg }}</td>
+                        <td class="td-stepper"><number-stepper class="sim-input" v-model="scenario.target.simSow.veg" ></number-stepper></td>
+                        <td style="font-weight:bold;">{{ computedSims[scenario.id].harvest.totalVeg }}</td>
+                        <td style="font-weight:bold; color:#9d174d;">{{ computedSims[scenario.id].harvest.scoreVeg }}</td>
+                    </tr>
+                </table>
+                <div style="text-align:right; font-weight:bold; color:#ca8a04; margin-top:4px;">
+                    十四回合預估總轉化: <span style="font-size:16px;">+{{ computedSims[scenario.id].harvest.totalFoodGained }}</span> 食物
                 </div>
             </div>
 
             <!-- 🎯 終極目標規劃器 -->
             <div class="planner-section section-block" v-if="viewingHistoryIndex === -1">
-                <div class="scenario-card-block" ></div>
                 <div class="planner-section" v-if="viewingHistoryIndex === -1">
                     <h4 style="color:#854d0e; text-align:center; margin-bottom:5px;">🎯 目標規劃器 (點擊設定, 再點取消)</h4>
                     
                     <table class="planner-table">
                         <tr><th>木屋 (0分/間)</th>
                             <td v-for="c in [2,3,4,5,6,7,8]" @click="setTarget(scenario, 'rooms', c, 'wood')" :class="{'selected': scenario.target.rooms === c && scenario.target.roomType === 'wood'}">木{{c}}</td>
-                            <td rowspan="3"><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.rooms !== '' && scenario.target.customCosts.rooms !== undefined}" v-model="scenario.target.customCosts.rooms" :placeholder="getDefCost(scenario, 'rooms')"></td>
+                            <td rowspan="3" class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.rooms !== '' && scenario.target.customCosts.rooms !== undefined}" v-model="scenario.target.customCosts.rooms" :placeholder="getDefCost(scenario, 'rooms')"></number-stepper></td>
                         </tr>
                         <tr><th>磚屋 (1分/間)</th>
                             <td v-for="c in [2,3,4,5,6,7,8]" @click="setTarget(scenario, 'rooms', c, 'clay')" :class="{'selected': scenario.target.rooms === c && scenario.target.roomType === 'clay'}">磚{{c}}</td>
@@ -589,28 +766,27 @@
                     <table class="planner-table">
                         <tr><td>家人</td>
                             <td v-for="i in [1,2,3,4,5]" @click="setTarget(scenario, 'family', i)" :class="{'selected': scenario.target.family === i}">{{i}}人</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.family !== '' && scenario.target.customCosts.family !== undefined}" v-model="scenario.target.customCosts.family" :placeholder="getDefCost(scenario, 'family')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.family !== '' && scenario.target.customCosts.family !== undefined}" v-model="scenario.target.customCosts.family" :placeholder="getDefCost(scenario, 'family')"></number-stepper></td>
                         </tr>
                         <tr><td>農田</td>
                             <td v-for="(v, i) in [0, 2, 3, 4, 5]" @click="setTarget(scenario, 'fields', i)" :class="{'selected': scenario.target.fields === i}">
                                 {{ v===0 ? '0~1' : (v===5 ? '5+' : v) }}<br>
-                                <!-- 農田5+時可手動輸入佔格數，以精算空地扣分減免 -->
-                                <input v-if="scenario.target.fields === 4 && i === 4" type="number" v-model="scenario.target.fieldSpaces" placeholder="5" @click.stop style="width:40px; font-size:9px;">
+                                <number-stepper v-if="scenario.target.fields === 4 && i === 4" v-model="scenario.target.fieldSpaces" placeholder="5" @click.stop style="font-size:9px;"></number-stepper>
                             </td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.fields !== '' && scenario.target.customCosts.fields !== undefined}" v-model="scenario.target.customCosts.fields" :placeholder="getDefCost(scenario, 'fields')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.fields !== '' && scenario.target.customCosts.fields !== undefined}" v-model="scenario.target.customCosts.fields" :placeholder="getDefCost(scenario, 'fields')"></number-stepper></td>
                         </tr>
                         <tr><td>圈地</td>
                             <td v-for="(v, i) in [0, 1, 2, 3, 4]" @click="setTarget(scenario, 'pastures', i)" :class="{'selected': scenario.target.pastures === i}">{{ v===4 ? '4+' : v }}<br>
-                                <input v-if="scenario.target.pastures === i" type="number" v-model="scenario.target.pastureSpaces" placeholder="佔格" @click.stop style="width:40px; font-size:9px;">
+                                <number-stepper v-if="scenario.target.pastures === i" v-model="scenario.target.pastureSpaces" placeholder="佔格" @click.stop style="font-size:9px;"></number-stepper>
                             </td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.pastures !== '' && scenario.target.customCosts.pastures !== undefined}" v-model="scenario.target.customCosts.pastures" :placeholder="getDefCost(scenario, 'pastures')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.pastures !== '' && scenario.target.customCosts.pastures !== undefined}" v-model="scenario.target.customCosts.pastures" :placeholder="getDefCost(scenario, 'pastures')"></number-stepper></td>
                         </tr>
                         <tr><td>圈內馬廄</td>
                             <td v-for="i in [0,1,2,3,4]" @click="setTarget(scenario, 'fencedStables', i)" :class="{'selected': scenario.target.fencedStables === i}">{{i}}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.fencedStables !== '' && scenario.target.customCosts.fencedStables !== undefined}" v-model="scenario.target.customCosts.fencedStables" :placeholder="getDefCost(scenario, 'fencedStables')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.fencedStables !== '' && scenario.target.customCosts.fencedStables !== undefined}" v-model="scenario.target.customCosts.fencedStables" :placeholder="getDefCost(scenario, 'fencedStables')"></number-stepper></td>
                         </tr>
                         <tr><td>圈外馬廄</td>
-                            <td colspan="5"><input type="number" v-model="scenario.target.unfencedStables" min="0" max="4" style="width:40px; text-align:center;"> (不計分，但防空地扣分)</td>
+                            <td colspan="5"><number-stepper v-model="scenario.target.unfencedStables" :max="4" style="text-align:center;"></number-stepper> (不計分，但防空地扣分)</td>
                             <td></td>
                         </tr>
                     </table>
@@ -619,28 +795,27 @@
                         <tr><th>農作物</th><th>-1分</th><th>1分</th><th>2分</th><th>3分</th><th>4分</th><th>覆寫動數</th></tr>
                         <tr><td>麥子</td>
                             <td v-for="(v, i) in [0, 1, 4, 6, 8]" @click="setTarget(scenario, 'grain', i)" :class="{'selected': scenario.target.grain === i}">{{ ['0','1~3','4~5','6~7','8+'][i] }}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.grain !== '' && scenario.target.customCosts.grain !== undefined}" v-model="scenario.target.customCosts.grain" :placeholder="getDefCost(scenario, 'grain')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.grain !== '' && scenario.target.customCosts.grain !== undefined}" v-model="scenario.target.customCosts.grain" :placeholder="getDefCost(scenario, 'grain')"></number-stepper></td>
                         </tr>
                         <tr><td>蔬菜</td>
                             <td v-for="(v, i) in [0, 1, 2, 3, 4]" @click="setTarget(scenario, 'veg', i)" :class="{'selected': scenario.target.veg === i}">{{ v===4 ? '4+' : v }}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.veg !== '' && scenario.target.customCosts.veg !== undefined}" v-model="scenario.target.customCosts.veg" :placeholder="getDefCost(scenario, 'veg')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.veg !== '' && scenario.target.customCosts.veg !== undefined}" v-model="scenario.target.customCosts.veg" :placeholder="getDefCost(scenario, 'veg')"></number-stepper></td>
                         </tr>
-                        
                     </table>
                     
                     <table class="planner-table">
                         <tr><th>動物</th><th>-1分</th><th>1分</th><th>2分</th><th>3分</th><th>4分</th><th>覆寫動數</th></tr>
                         <tr><td>綿羊</td>
                             <td v-for="(v, i) in [0, 1, 4, 6, 8]" @click="setTarget(scenario, 'sheep', i)" :class="{'selected': scenario.target.sheep === i}">{{ ['0','1~3','4~5','6~7','8+'][i] }}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.sheep !== '' && scenario.target.customCosts.sheep !== undefined}" v-model="scenario.target.customCosts.sheep" :placeholder="getDefCost(scenario, 'sheep')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.sheep !== '' && scenario.target.customCosts.sheep !== undefined}" v-model="scenario.target.customCosts.sheep" :placeholder="getDefCost(scenario, 'sheep')"></number-stepper></td>
                         </tr>
                         <tr><td>野豬</td>
                             <td v-for="(v, i) in [0, 1, 3, 5, 7]" @click="setTarget(scenario, 'boar', i)" :class="{'selected': scenario.target.boar === i}">{{ ['0','1~2','3~4','5~6','7+'][i] }}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.boar !== '' && scenario.target.customCosts.boar !== undefined}" v-model="scenario.target.customCosts.boar" :placeholder="getDefCost(scenario, 'boar')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.boar !== '' && scenario.target.customCosts.boar !== undefined}" v-model="scenario.target.customCosts.boar" :placeholder="getDefCost(scenario, 'boar')"></number-stepper></td>
                         </tr>
                         <tr><td>牛隻</td>
                             <td v-for="(v, i) in [0, 1, 2, 4, 6]" @click="setTarget(scenario, 'cattle', i)" :class="{'selected': scenario.target.cattle === i}">{{ ['0','1','2~3','4~5','6+'][i] }}</td>
-                            <td><input type="number" class="cost-input" :class="{'edited': scenario.target.customCosts.cattle !== '' && scenario.target.customCosts.cattle !== undefined}" v-model="scenario.target.customCosts.cattle" :placeholder="getDefCost(scenario, 'cattle')"></td>
+                            <td class="td-stepper"><number-stepper class="cost-input" :class="{'edited': scenario.target.customCosts.cattle !== '' && scenario.target.customCosts.cattle !== undefined}" v-model="scenario.target.customCosts.cattle" :placeholder="getDefCost(scenario, 'cattle')"></number-stepper></td>
                         </tr>
                     </table>
 
@@ -667,25 +842,23 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-
-        <div class="add-copy-panel" v-if="viewingHistoryIndex === -1">
-            <button class="add-btn" @click="addScenario">+ 新增空策略分支</button>
-            <div class="copy-panel" v-if="scenarios.length > 0">
-                <select v-model="copySourceId">
-                    <option v-for="s in scenarios" :key="s.id" :value="s.id">{{ s.name }}</option>
-                </select>
-                <button class="copy-btn" @click="copyScenario">複製此分支</button>
-            </div>
+    </div>
+    <div class="add-copy-panel" v-if="viewingHistoryIndex === -1">
+        <button class="add-btn" @click="addScenario">+ 新增空策略分支</button>
+        <div class="copy-panel" v-if="scenarios.length > 0">
+            <select v-model="copySourceId">
+                <option v-for="s in scenarios" :key="s.id" :value="s.id">{{ s.name }}</option>
+            </select>
+            <button class="copy-btn" @click="copyScenario">複製此分支</button>
         </div>
     </div>
 </div>
 
 <script>
-    const { createApp, ref, computed, watch } = Vue;
+    const { ref, computed, watch } = Vue;
 
-    createApp({
+    const app = Vue.createApp({
         setup() {
             // 控制目前顯示的分頁 ('global' 或 'scenarios')
             const activeMainTab = ref('scenarios');
@@ -702,6 +875,19 @@
                 }, 50);
             };
             
+            const scrollToLog = (scenarioId, direction) => {
+                const container = document.getElementById('log-container-' + scenarioId);
+                if (container) {
+                    if (direction === 'top') {
+                        // 平滑滾動到最頂
+                        container.scrollTo({ top: 0, behavior: 'smooth' });
+                    } else if (direction === 'bottom') {
+                        // 平滑滾動到最底
+                        container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+                    }
+                }
+            };
+
             const gameConfig = ref({
                 isHidden: false,
                 unlockRounds: {
@@ -795,7 +981,7 @@
             let nextId = 1;
             const viewingHistoryIndex = ref(-1);
             const createNewScenario = (name) => ({
-                id: `s_${nextId++}`, name: name, actions: [], customDebt: "", notes: "",
+                id: `s_${nextId++}`, name: name, actions: [], customDebt: "", notes: "", showBudget: false,
                 staged: { 
                     rooms: 1, stables: 0, stablesToFence: false, 
                     sowG: 1, sowV: 0, fenceWood: 4, fencePastures: 1, fenceSpaces: 1, 
@@ -810,7 +996,8 @@
                     imps: [], customCosts: {}, accN: { wood: '', clay: '', reed: '', 
                     stone: '', sheep: '', boar: '', cattle: '' }, 
                     simEat: { sheep: 0, boar: 0, cattle: 0, grain: 0, veg: 0 }, 
-                    simSow: { grain: 0, veg: 0 }}
+                    simSow: { grain: 0, veg: 0 },
+                    plannedGrowths: []}
             });
             const scenarios = ref([ createNewScenario(`第 ${baseState.value.round} 回合規劃`) ]);
             
@@ -1154,56 +1341,18 @@
             };
 
             const getSimHarvest = (state, simEat, simSow) => {
-                let h = {}; let totalFood = 0;
-                const hasHearth = state.improvements.includes('hearth'); const hasFire = state.improvements.includes('fireplace');
+                let h = {}; 
+                let totalFood = 0;
+                const hasHearth = state.improvements.includes('hearth'); 
+                const hasFire = state.improvements.includes('fireplace');
                 h.remHarvests = getRemainingHarvests(state);
-                const isR = (act) => !gameConfig.value.isHidden || gameConfig.value.unlockRounds[act] <= state.round;
 
-                // 綿羊
-                let eatS = simEat.sheep || 0;
-                h.foodSheep = eatS * (hasHearth ? 2 : (hasFire ? 2 : 0)); totalFood += h.foodSheep;
-                h.breedSheep = state.sheep >= 2 ? h.remHarvests : 0;
-                if (!isR('take_sheep')) {
-                    h.untakenSheepStr = '未知';
-                    h.totalSheepStr = `${Math.max(0, state.sheep + state.accSheep + h.breedSheep - eatS)}+?`;
-                    h.scoreSheep = '未知';
-                } else {
-                    h.untakenSheepStr = `+${state.accSheep + getFutureAcc('sheep', state.round)}`;
-                    h.totalSheep = Math.max(0, state.sheep + state.accSheep + getFutureAcc('sheep', state.round) + h.breedSheep - eatS);
-                    h.totalSheepStr = h.totalSheep; h.scoreSheep = getTierScore(h.totalSheep, 'sheep');
-                }
+                // --- 1. 食物轉化效益判定 (與上一版相同) ---
+                let eatS = simEat.sheep || 0; h.foodSheep = eatS * (hasHearth ? 2 : (hasFire ? 2 : 0)); totalFood += h.foodSheep;
+                let eatB = simEat.boar || 0;  h.foodBoar  = eatB * (hasHearth ? 3 : (hasFire ? 2 : 0)); totalFood += h.foodBoar;
+                let eatC = simEat.cattle || 0;h.foodCattle = eatC * (hasHearth ? 4 : (hasFire ? 3 : 0)); totalFood += h.foodCattle;
 
-                // 野豬
-                let eatB = simEat.boar || 0;
-                h.foodBoar = eatB * (hasHearth ? 3 : (hasFire ? 2 : 0)); totalFood += h.foodBoar;
-                h.breedBoar = state.boar >= 2 ? h.remHarvests : 0;
-                if (!isR('take_boar')) {
-                    h.untakenBoarStr = '未知';
-                    h.totalBoarStr = `${Math.max(0, state.boar + state.accBoar + h.breedBoar - eatB)}+?`;
-                    h.scoreBoar = '未知';
-                } else {
-                    h.untakenBoarStr = `+${state.accBoar + getFutureAcc('boar', state.round)}`;
-                    h.totalBoar = Math.max(0, state.boar + state.accBoar + getFutureAcc('boar', state.round) + h.breedBoar - eatB);
-                    h.totalBoarStr = h.totalBoar; h.scoreBoar = getTierScore(h.totalBoar, 'boar');
-                }
-
-                // 牛隻
-                let eatC = simEat.cattle || 0;
-                h.foodCattle = eatC * (hasHearth ? 4 : (hasFire ? 3 : 0)); totalFood += h.foodCattle;
-                h.breedCattle = state.cattle >= 2 ? h.remHarvests : 0;
-                if (!isR('take_cattle')) {
-                    h.untakenCattleStr = '未知';
-                    h.totalCattleStr = `${Math.max(0, state.cattle + state.accCattle + h.breedCattle - eatC)}+?`;
-                    h.scoreCattle = '未知';
-                } else {
-                    h.untakenCattleStr = `+${state.accCattle + getFutureAcc('cattle', state.round)}`;
-                    h.totalCattle = Math.max(0, state.cattle + state.accCattle + getFutureAcc('cattle', state.round) + h.breedCattle - eatC);
-                    h.totalCattleStr = h.totalCattle; h.scoreCattle = getTierScore(h.totalCattle, 'cattle');
-                }
-
-                // 麥子
-                let eatG = simEat.grain || 0;
-                let tempG = eatG; let foodG = 0;
+                let eatG = simEat.grain || 0; let tempG = eatG; let foodG = 0;
                 if (state.improvements.includes('clay_oven') && tempG > 0) { foodG += 5; tempG--; }
                 if (state.improvements.includes('stone_oven')) {
                     if (tempG > 0) { foodG += 4; tempG--; }
@@ -1211,22 +1360,57 @@
                 }
                 if (tempG > 0) { foodG += tempG * (hasHearth ? 3 : (hasFire ? 2 : 1)); }
                 h.foodGrain = foodG; totalFood += foodG;
-                
+
+                let eatV = simEat.veg || 0; h.foodVeg = eatV * (hasHearth ? 3 : (hasFire ? 2 : 1)); totalFood += h.foodVeg;
+                h.totalFoodGained = totalFood;
+
+                // --- 2. //新增功能：雙軌制得分與行動債推算 ---
+                const calcTrack = (type, currentStock, eatCount, accBoard, futureAcc) => {
+                    let isAnimal = ['sheep', 'boar', 'cattle'].includes(type);
+                    
+                    // A. 手頭保底軌道：玩家躺平，不再花行動去累積格拿動物/農作
+                    let baseRem = currentStock - eatCount;
+                    let baseBreed = (isAnimal && baseRem >= 2) ? h.remHarvests : 0;
+                    let fieldYield = type === 'grain' ? state.grainFields.reduce((a,b)=>a+b,0) : (type === 'veg' ? state.vegFields.reduce((a,b)=>a+b,0) : 0);
+                    let baseTotal = Math.max(0, baseRem + baseBreed + fieldYield);
+                    
+                    // B. 行動加開軌道：假設玩家願意「多花 1 動」去把這格的累積一網打盡
+                    let actTotal = Math.max(0, baseTotal + accBoard + futureAcc);
+                    
+                    let baseScore = getTierScore(baseTotal, type);
+                    let actScore = getTierScore(actTotal, type);
+                    let marginalGain = actScore - baseScore; // 這一動的真實淨利分數 (APV)
+
+                    return {
+                        baseTotal,
+                        baseScore,
+                        actTotal,
+                        actScore,
+                        marginalGain,
+                        totalAccBoard: accBoard + futureAcc
+                    };
+                };
+
+                let futureSheep = getFutureAcc('sheep', state.round);
+                h.trackSheep = calcTrack('sheep', state.sheep, eatS, state.accSheep, futureSheep);
+
+                let futureBoar = getFutureAcc('boar', state.round);
+                h.trackBoar = calcTrack('boar', state.boar, eatB, state.accBoar, futureBoar);
+
+                let futureCattle = getFutureAcc('cattle', state.round);
+                h.trackCattle = calcTrack('cattle', state.cattle, eatC, state.accCattle, futureCattle);
+
+                // 農作宏觀推算 (播種淨利)
                 let sowG = simSow.grain || 0;
                 let curGrain = state.grain + state.grainFields.reduce((a,b)=>a+b,0);
-                h.totalGrain = Math.max(0, curGrain + (sowG * 2) - eatG); 
+                h.totalGrain = Math.max(0, curGrain + (sowG * 2) - eatG);
                 h.scoreGrain = getTierScore(h.totalGrain, 'grain');
 
-                // 蔬菜
-                let eatV = simEat.veg || 0;
-                h.foodVeg = eatV * (hasHearth ? 3 : (hasFire ? 2 : 1)); totalFood += h.foodVeg;
-                
                 let sowV = simSow.veg || 0;
                 let curVeg = state.veg + state.vegFields.reduce((a,b)=>a+b,0);
-                h.totalVeg = Math.max(0, curVeg + (sowV * 1) - eatV); 
+                h.totalVeg = Math.max(0, curVeg + (sowV * 1) - eatV);
                 h.scoreVeg = getTierScore(h.totalVeg, 'veg');
 
-                h.totalFoodGained = totalFood;
                 return h;
             };
 
@@ -1336,7 +1520,11 @@
 
             const computedStates = computed(() => {
                 const results = {};
-                displayedScenarios.value.forEach(sc => { results[sc.id] = runScenarioEvaluation(displayedBaseState.value, sc); });
+                displayedScenarios.value.forEach(sc => { 
+                    let evalState = runScenarioEvaluation(displayedBaseState.value, sc);
+                    evalState.budget = getBudgetAndHorizon(evalState, sc.target.plannedGrowths);
+                    results[sc.id] = evalState; 
+                });
                 return results;
             });
 
@@ -1525,7 +1713,356 @@
                 scenarios.value = [ createNewScenario(`改寫歷史後的規劃`) ];
             };
 
+            const retroCategories = {
+                food: { icon: '🍲', name: '食物與避免扣分', group: 'engine' },
+                family: { icon: '👨‍👩‍👦', name: '家人擴充引擎', group: 'engine' },
+                fields: { icon: '🟫', name: '農田數量', group: 'score' },
+                pastures: { icon: '🤺', name: '圈地建置', group: 'score' },
+                grain: { icon: '🌾', name: '麥子產量', group: 'score' },
+                veg: { icon: '🥬', name: '蔬菜產量', group: 'score' },
+                sheep: { icon: '🐑', name: '綿羊飼養', group: 'score' },
+                boar: { icon: '🐗', name: '野豬飼養', group: 'score' },
+                cattle: { icon: '🐄', name: '牛隻飼養', group: 'score' },
+                rooms: { icon: '🏠', name: '房屋擴建與翻修', group: 'score' },
+                fencedStables: { icon: '🐎', name: '圈內馬廄', group: 'score' },
+                improvements: { icon: '💳', name: '發展卡與設施', group: 'score' },
+                emptySpaces: { icon: '⬛', name: '空地扣分防禦', group: 'score' }
+            };
+
+            const ACTION_IMPACTS = {
+                'plow_field': ['fields', 'emptySpaces', 'grain', 'veg', 'food'],
+                'take_grain': ['grain', 'food'],
+                'take_veg': ['veg', 'food'],
+                'sow_bake': ['grain', 'veg', 'food'],
+                'plow_sow': ['fields', 'emptySpaces', 'grain', 'veg', 'food'],
+                'take_wood': ['rooms', 'pastures', 'fencedStables', 'improvements'],
+                'take_clay': ['rooms', 'improvements'],
+                'take_reed': ['rooms', 'improvements'],
+                'take_stone_1': ['rooms', 'improvements'],
+                'take_stone_2': ['rooms', 'improvements'],
+                'expand_room': ['rooms', 'emptySpaces', 'family', 'fencedStables'],
+                'family_growth': ['family', 'food'], // 生人增加行動，但也增加耗食壓力
+                'family_growth_no_room': ['family', 'food'],
+                'build_fence': ['pastures', 'emptySpaces', 'sheep', 'boar', 'cattle'],
+                'renovate_fence': ['rooms', 'pastures', 'emptySpaces', 'sheep', 'boar', 'cattle'],
+                'renovate_major': ['rooms', 'improvements', 'food'],
+                'play_dev': ['improvements', 'food'],
+                'take_sheep': ['sheep', 'food'],
+                'take_boar': ['boar', 'food'],
+                'take_cattle': ['cattle', 'food'],
+                'take_fishing': ['food'],
+                'casual_labor': ['food'],
+                'convert_food': ['food'],
+                'harvest_field': ['grain', 'veg', 'food'],
+                'harvest_feed': ['food', 'sheep', 'boar', 'cattle']
+            };
+
+            const selectedRetroCategory = ref('all');
+
+            // 萃取完整遊戲歷程 (包含歷史紀錄與當前準備執行的劇本)
+            const fullActionHistory = computed(() => {
+                let list = [];
+                // 1. 歷遍所有已經確認的歷史節點
+                history.value.forEach(hBlock => {
+                    const sc = hBlock.scenarios.find(s => s.id === hBlock.selectedScenarioId);
+                    if (sc) {
+                        sc.actions.forEach(act => {
+                            // 呼叫效果函數取得參數文字描述
+                            let pStr = getParamDesc(act.id, act.params, actionDef[act.id]?.effect(JSON.parse(JSON.stringify(hBlock.startState)), act.params));
+                            list.push({
+                                round: hBlock.startState.round,
+                                id: act.id,
+                                name: actionDef[act.id]?.name || act.id,
+                                paramStr: pStr,
+                                isSystem: actionDef[act.id]?.isSystem || actionDef[act.id]?.isFree,
+                                impacts: ACTION_IMPACTS[act.id] || [],
+                                isSynergy: checkSynergy(ACTION_IMPACTS[act.id] || [])
+                            });
+                        });
+                    }
+                });
+                // 2. 加入當前畫面上正在規劃的動作 (第 0 個劇本)
+                if (scenarios.value.length > 0 && viewingHistoryIndex.value === -1) {
+                    scenarios.value[0].actions.forEach(act => {
+                        let pStr = getParamDesc(act.id, act.params, actionDef[act.id]?.effect(JSON.parse(JSON.stringify(baseState.value)), act.params));
+                        list.push({
+                            round: baseState.value.round,
+                            id: act.id,
+                            name: actionDef[act.id]?.name || act.id,
+                            paramStr: pStr,
+                            isSystem: actionDef[act.id]?.isSystem || actionDef[act.id]?.isFree,
+                            impacts: ACTION_IMPACTS[act.id] || []
+                        });
+                    });
+                }
+                return list;
+            });
+
+            // 根據左側點選的維度，過濾出樹狀圖連線
+            const filteredRetroTree = computed(() => {
+                if (selectedRetroCategory.value === 'all') return fullActionHistory.value;
+                return fullActionHistory.value.filter(a => a.impacts.includes(selectedRetroCategory.value));
+            });
+
+            // 計算某個維度總共花了幾個行動
+            const getActionCountForCategory = (categoryKey) => {
+                return fullActionHistory.value.filter(a => a.impacts.includes(categoryKey) && !a.isSystem).length;
+            };
+
+            const SCORE_IMPACTS = ['fields', 'pastures', 'grain', 'veg', 'sheep', 'boar', 'cattle', 'rooms', 'fencedStables', 'improvements'];
+            
+            const checkSynergy = (impacts) => {
+                return impacts.includes('food') && impacts.some(i => SCORE_IMPACTS.includes(i));
+            };
+
+            const getFutureRounds = (currentRound) => {
+                let rounds = [];
+                for (let i = currentRound + 1; i <= 14; i++) rounds.push(i);
+                return rounds;
+            };
+            
+            const getPointLoss = (state, type, currentCount, eatCount, remHarvests) => {
+                let origCount = currentCount;
+                let newCount = currentCount - eatCount;
+                if (newCount < 0) return 999; // 不可能
+                // 模擬不吃的終局數量
+                for(let i=0; i<remHarvests; i++) { if (origCount >= 2) origCount++; }
+                // 模擬吃掉後的終局數量
+                for(let i=0; i<remHarvests; i++) { if (newCount >= 2) newCount++; }
+                
+                let origScore = getTierScore(origCount, type);
+                let newScore = getTierScore(newCount, type);
+                return origScore - newScore;
+            };
+
+            const generateFoodPlan = (state, macroDebt, immediateDebt, remHarvests) => {
+                if (macroDebt <= 0) return [];
+                let plan = [];
+                let currentDebt = macroDebt;
+                
+                let sim = {
+                    grain: state.grain, veg: state.veg,
+                    sheep: state.sheep, boar: state.boar, cattle: state.cattle,
+                    wood: state.wood, clay: state.clay, reed: state.reed,
+                    clayOvenCap: state.improvements.includes('clay_oven') ? 1 : 0,
+                    stoneOvenCap: state.improvements.includes('stone_oven') ? 2 : 0
+                };
+
+                const hasHearth = state.improvements.includes('hearth');
+                const hasFire = state.improvements.includes('fireplace');
+                const hasJoinery = state.improvements.includes('joinery');
+                const hasPottery = state.improvements.includes('pottery');
+                const hasBasketmaker = state.improvements.includes('basketmaker');
+
+                const addStep = (msg, foodVal, lossVal) => {
+                    let warnStyle = lossVal > 0 ? (lossVal >= 2 ? 'color:#b91c1c;' : 'color:#d97706;') : 'color:#059669;';
+                    plan.push({ msg, val: foodVal, isWarn: lossVal > 0, style: warnStyle });
+                    currentDebt -= foodVal;
+                };
+
+                // 0. 特殊高CP值推薦：累積格 > 3食 時，優先提示
+                if (state.accFood >= 3 && currentDebt > 0 && state.workersLeft > 0) {
+                    addStep(`🎯 強烈建議：花 1 動踩「釣魚」累積格`, state.accFood, 0);
+                }
+
+                const getMarginalLoss = (type) => {
+                    let current = sim[type];
+                    if (current <= 0) return 999; // 沒得吃
+                    
+                    if (['sheep', 'boar', 'cattle'].includes(type)) {
+                        let origTotal = current + (current >= 2 ? remHarvests : 0);
+                        let newTotal = (current - 1) + ((current - 1) >= 2 ? remHarvests : 0);
+                        return getTierScore(origTotal, type) - getTierScore(newTotal, type);
+                        
+                    } else if (['grain', 'veg'].includes(type)) {
+                        let fieldSum = (type==='grain' ? state.grainFields : state.vegFields).reduce((a,b)=>a+b,0);
+                        let origTotal = current + fieldSum;
+                        let newTotal = (current - 1) + fieldSum;
+                        return getTierScore(origTotal, type) - getTierScore(newTotal, type);
+                        
+                    } else if (['wood', 'clay', 'reed'].includes(type)) {
+                        const wcbScores = (val, t) => { if(val>=t[2]) return 3; if(val>=t[1]) return 2; if(val>=t[0]) return 1; return 0; };
+                        let tiers = type==='reed' ? [2,4,5] : [3,5,7];
+                        return wcbScores(current, tiers) - wcbScores(current - 1, tiers);
+                    }
+                    return 999;
+                };
+
+                while (currentDebt > 0) {
+                    let moves = [];
+                    
+                    // 1. 烤麵包 (必須具備剩餘動數才能執行，無論是烤爐還是壁爐/火爐)
+                    let canActuallyBake = state.canBake || (immediateDebt <= 0 && state.workersLeft > 0);
+                    if (canActuallyBake && sim.grain > 0) {
+                        let loss = getMarginalLoss('grain');
+                        if (sim.clayOvenCap > 0) moves.push({ type: 'grain', name: '磚烤爐', food: 5, loss: loss, requiresAction: true, postAction: () => sim.clayOvenCap-- });
+                        if (sim.stoneOvenCap > 0) moves.push({ type: 'grain', name: '石烤爐', food: 4, loss: loss, requiresAction: true, postAction: () => sim.stoneOvenCap-- });
+                        
+                        // 修正：壁爐/火爐烤麥也需要行動，移入 canActuallyBake 判斷內
+                        if (hasHearth || hasFire) {
+                            moves.push({ type: 'grain', name: '壁/火爐烤麥', food: hasHearth?3:2, loss: loss, requiresAction: true });
+                        }
+                    }
+                    
+                    // 2. 季末烹煮動物/蔬菜與工坊轉換 (這些是 Free Action 免費行動)
+                    if (hasHearth || hasFire) {
+                        if (sim.veg > 0) moves.push({ type: 'veg', name: '烹煮蔬菜', food: hasHearth?3:2, loss: getMarginalLoss('veg'), requiresAction: false });
+                        if (sim.sheep > 0) moves.push({ type: 'sheep', name: '烹煮綿羊', food: hasHearth?2:2, loss: getMarginalLoss('sheep'), requiresAction: false });
+                        if (sim.boar > 0) moves.push({ type: 'boar', name: '烹煮野豬', food: hasHearth?3:2, loss: getMarginalLoss('boar'), requiresAction: false });
+                        if (sim.cattle > 0) moves.push({ type: 'cattle', name: '烹煮牛隻', food: hasHearth?4:3, loss: getMarginalLoss('cattle'), requiresAction: false });
+                    }
+                    
+                    if (hasJoinery && sim.wood > 0) moves.push({ type: 'wood', name: '傢俱工坊', food: 2, loss: getMarginalLoss('wood'), requiresAction: false });
+                    if (hasPottery && sim.clay > 0) moves.push({ type: 'clay', name: '陶藝工坊', food: 2, loss: getMarginalLoss('clay'), requiresAction: false });
+                    if (hasBasketmaker && sim.reed > 0) moves.push({ type: 'reed', name: '蘆葦工坊', food: 3, loss: getMarginalLoss('reed'), requiresAction: false });
+                    
+                    // 生吃 (保底手段，不扣動數但掉分機率高)
+                    if (sim.grain > 0) moves.push({ type: 'grain', name: '生吃麥子', food: 1, loss: getMarginalLoss('grain'), requiresAction: false });
+                    if (sim.veg > 0) moves.push({ type: 'veg', name: '生吃蔬菜', food: 1, loss: getMarginalLoss('veg'), requiresAction: false });
+                    
+                    if (moves.length === 0) break; 
+                    
+                    // 核心排序演算法 (加入行動成本權重)
+                    moves.sort((a, b) => {
+                        // 1. 優先找「單位掉分」最低的 ( loss / food )
+                        let ratioA = a.loss / a.food; let ratioB = b.loss / b.food;
+                        if (ratioA !== ratioB) return ratioA - ratioB;
+                        
+                        // 2. 如果掉分率一樣，找絕對掉分最小的
+                        if (a.loss !== b.loss) return a.loss - b.loss;
+                        
+                        // 3. 如果前兩者都一樣，優先選擇「不用扣行動數 (Free)」的轉換方式！
+                        let actScoreA = a.requiresAction ? 1 : 0;
+                        let actScoreB = b.requiresAction ? 1 : 0;
+                        if (actScoreA !== actScoreB) return actScoreA - actScoreB;
+
+                        // 4. 前三者都平手時，找產食最大的 (效率最快)
+                        return b.food - a.food;
+                    });
+                    
+                    let bestMove = moves[0];
+                    sim[bestMove.type]--;
+                    if (bestMove.postAction) bestMove.postAction();
+                    
+                    let icon = '🔄';
+                    if (['grain','veg'].includes(bestMove.type)) icon = '🌾';
+                    if (['sheep','boar','cattle'].includes(bestMove.type)) icon = '🥩';
+                    if (['wood','clay','reed'].includes(bestMove.type)) icon = '🛠️';
+                    
+                    let typeNameMap = { grain:'麥', veg:'菜', sheep:'羊', boar:'豬', cattle:'牛', wood:'木', clay:'磚', reed:'蘆' };
+                    let actCostStr = bestMove.requiresAction ? '(需1動)' : '(免費)';
+                    let msgStr = `${icon} ${bestMove.name} ${actCostStr} [分損:${bestMove.loss}]`;
+                    
+                    addStep(msgStr, bestMove.food, bestMove.loss);
+                }
+
+                if (currentDebt > 0) {
+                    plan.push({ msg: `🚨 資源耗盡，全盤仍缺 ${currentDebt} 食！必須安排獲取行動`, val: 0, isWarn: true, style: 'color:#b91c1c; font-weight:bold;' });
+                }
+
+                return plan;
+            };
+
+            // 精算特定回合的食物需求 (考慮嬰兒只吃1)
+            const getFoodReqForRound = (targetRound, futureGrowths, currentState) => {
+                let adults = currentState.adults;
+                let newborns = 0;
+                
+                // 處理當前真實手上的家人
+                if (currentState.round === targetRound) {
+                    newborns += currentState.newborns; // 剛好在目標收成當回出生的，吃1
+                } else if (currentState.round < targetRound) {
+                    adults += currentState.newborns; // 過季了，原本的嬰兒已長大吃3
+                }
+
+                // 處理未來的生人計畫 (傳入的 futureGrowths 已過濾掉 <= currentState.round 的無效計畫)
+                futureGrowths.forEach(pr => {
+                    if (pr < targetRound) {
+                        adults++; // 在目標收成回合「之前」出生的，到了收成季已經算成人，吃3
+                    } else if (pr === targetRound) {
+                        newborns++; // 剛好在收成當回合出生的，吃1
+                    }
+                });
+                
+                return (adults * 3) + (newborns * 1);
+            };
+
+            const getBudgetAndHorizon = (state, plannedGrowths = []) => {
+                // 1. 過濾「真正屬於未來」的生人計畫
+                let futureGrowths = plannedGrowths.filter(r => r > state.round);
+                
+                let currentFamily = state.adults + state.newborns;
+                let remActions = state.workersLeft;
+                
+                for (let r = state.round + 1; r <= 14; r++) {
+                    let growthsThisRound = futureGrowths.filter(pr => pr === r).length;
+                    currentFamily += growthsThisRound; 
+                    remActions += currentFamily;
+                    remActions -= growthsThisRound; 
+                }
+                
+                let upcomingHarvests = HARVEST_ROUNDS.filter(hr => hr >= state.round);
+                let h1 = upcomingHarvests[0] || null;
+                let h2 = upcomingHarvests[1] || null;
+                let remHarvestsCount = upcomingHarvests.length;
+
+                // 2. 使用修正後的 getFoodReqForRound，並只傳入有效過濾的 futureGrowths
+                let req1 = h1 ? getFoodReqForRound(h1, futureGrowths, state) : 0;
+                let req2 = h2 ? getFoodReqForRound(h2, futureGrowths, state) : 0;
+                
+                let baseFood = state.food;
+                let hStatus1 = 'safe'; let hMsg1 = '已無收成';
+                let hStatus2 = 'safe'; let hMsg2 = null;
+                let immediateShortage = 0; 
+                
+                if (h1) {
+                    let wellIncome1 = Math.min(state.wellFoodRemaining, h1 - state.round);
+                    let expect1 = baseFood + wellIncome1;
+                    if (expect1 < req1) {
+                        hStatus1 = 'danger'; hMsg1 = `R${h1}缺 ${req1 - expect1}食`;
+                        immediateShortage = (req1 - expect1);
+                        baseFood = 0; 
+                    } else {
+                        hStatus1 = 'safe'; hMsg1 = `R${h1}足`;
+                        baseFood = expect1 - req1;
+                    }
+                }
+
+                if (h2) {
+                    let wellUsedSoFar = Math.min(state.wellFoodRemaining, h1 - state.round);
+                    let remWell = state.wellFoodRemaining - wellUsedSoFar;
+                    let wellIncome2 = Math.min(remWell, h2 - h1);
+                    let expect2 = baseFood + wellIncome2;
+                    
+                    if (expect2 < req2) {
+                        hStatus2 = 'danger'; hMsg2 = `R${h2}缺 ${req2 - expect2}食`;
+                    } else {
+                        hStatus2 = 'safe'; hMsg2 = `R${h2}足`;
+                    }
+                }
+
+                let totalMacroReq = 0;
+                upcomingHarvests.forEach(hr => { totalMacroReq += getFoodReqForRound(hr, futureGrowths, state); });
+                let macroExpectedFood = state.food + state.wellFoodRemaining;
+                let macroShortage = Math.max(0, totalMacroReq - macroExpectedFood);
+
+                let ENGINE_EFFICIENCY = 3; 
+                let survivalTax = Math.ceil(macroShortage / ENGINE_EFFICIENCY); 
+                let freeActions = Math.max(0, remActions - survivalTax);
+                let taxPercent = remActions > 0 ? Math.min(100, (survivalTax / remActions) * 100) : 0;
+
+                let foodPlan = generateFoodPlan(state, macroShortage, immediateShortage, remHarvestsCount);
+
+                return { 
+                    remActions, survivalTax, freeActions, taxPercent, 
+                    horizonStatus1: hStatus1, horizonMsg1: hMsg1,
+                    horizonStatus2: hStatus2, horizonMsg2: hMsg2,
+                    foodShortage: macroShortage, foodPlan 
+                };
+            };
+
             return { 
+                scrollToLog,
                 baseState, history, scenarios, computedStates, computedPlanners, 
                 viewingHistoryIndex, copySourceId, displayedScenarios, 
                 getRoomTypeName, getImpName, getActionName, getUnlockedActions, isActionTakenThisRound, 
@@ -1534,10 +2071,70 @@
                 setTarget, toggleImp, getDefCost, getNextTierText,
                 getTargetRoundDesc, computedSims,
                 gameConfig, STAGE_ROUNDS, STAGE_POOLS, ACTION_NAMES, setDefaultOrder, setRandomOrder,
-                activeMainTab, scrollToSection
+                activeMainTab, scrollToSection,
+                retroCategories, selectedRetroCategory, fullActionHistory, filteredRetroTree, getActionCountForCategory,
+                getFutureRounds
             };
         }
-    }).mount('#app');
+    })
+
+    app.component('number-stepper', {
+        template: `
+            <div class="stepper-group">
+                <button class="stepper-btn" @click.prevent="decrement">-</button>
+                <input 
+                    type="number" 
+                    class="stepper-input" 
+                    :value="modelValue" 
+                    @input="onInput" 
+                    inputmode="numeric" 
+                    :min="min" 
+                    :max="max"
+                    :placeholder="placeholder"
+                >
+                <button class="stepper-btn" @click.prevent="increment">+</button>
+            </div>
+        `,
+        // 🌟 關鍵 1：型態必須允許 String，才能承接空字串 ''
+        props: {
+            modelValue: { type: [Number, String], default: '' },
+            min: { type: Number, default: 0 },
+            max: { type: Number, default: Infinity },
+            placeholder: { type: [String, Number], default: '0' }
+        },
+        emits: ['update:modelValue'],
+        setup(props, { emit }) {
+            const decrement = () => {
+                // 如果是空的，視為 0 開始減
+                let current = props.modelValue === '' ? 0 : Number(props.modelValue);
+                if (current > props.min) {
+                    emit('update:modelValue', current - 1);
+                }
+            };
+
+            const increment = () => {
+                let current = props.modelValue === '' ? 0 : Number(props.modelValue);
+                if (current < props.max) {
+                    emit('update:modelValue', current + 1);
+                }
+            };
+
+            const onInput = (event) => {
+                let rawVal = event.target.value;
+                // 🌟 關鍵 2：如果玩家清空輸入框，直接發送空字串給外層
+                if (rawVal === '') {
+                    emit('update:modelValue', ''); 
+                } else {
+                    let val = parseInt(rawVal, 10);
+                    if (!isNaN(val)) emit('update:modelValue', val);
+                }
+            };
+
+            return { decrement, increment, onInput };
+        }
+    });
+
+    app.mount('#app');
 </script>
 </body>
 </html>
